@@ -19,7 +19,7 @@ export default function InputField({
 }) {
   const Component = as === "textarea" ? "textarea" : "input";
   const inputRef = useRef(null);
-
+  console.log(error)
   return (
     <div className={`${s.inputField} ${classNameField}`}>
       {label && <p className={`${s.label} ${classNameLabel}`}>{label}</p>}
@@ -36,7 +36,7 @@ export default function InputField({
 
         <Component
           ref={inputRef}
-          className={`${s.input} ${classNameInput} ${error ? s.inputError : ""}`}
+          className={`${s.input} ${classNameInput} ${error && error.lenght>0 ? s.inputError : ""}`}
           type={as === "input" ? type : undefined}
           placeholder={placeholder}
           maxLength={maxLength}
@@ -46,9 +46,11 @@ export default function InputField({
         />
       </div>
 
-      <p className={`${s.errorMessage} ${error?s.show:""} ${classNameError}`}>
-        {error}
-      </p>
+      {error && (
+        <p className={`${s.errorMessage} ${s.show} ${classNameError}`}>
+          {error}
+        </p>
+      )}
     </div>
   );
 }

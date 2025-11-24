@@ -18,7 +18,7 @@
     display: flex;
     flex-direction: column;
     
-    gap: 30px;
+    gap: clamp(10px , 1.8vh,30px);
 }
 .button{
     display: flex;
@@ -26,6 +26,12 @@
     margin-top: 20px;
     align-items: center;
     gap: 12px;
+}
+.refContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
 }
 .ref{
     font-weight: 600;

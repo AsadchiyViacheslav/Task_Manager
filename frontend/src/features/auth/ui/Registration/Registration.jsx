@@ -35,7 +35,7 @@ export default function Registration() {
         setForm({ ...form, [field]: value });
         setError((prev) => ({
             ...prev,
-            [field]: [],
+            [field]: null,
         }));
     };
     const handleSubmit = async ()=>{

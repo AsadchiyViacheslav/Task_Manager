@@ -31,7 +31,7 @@ export default function Task({
         setProgress(value)
     }
     const timeString = timeToString(time);
-    console.log(timeString)
+    // console.log(timeString)
     return (
         <div className={`${s.container} ${className}`}>
             {skeleton ? (

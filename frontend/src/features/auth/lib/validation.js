@@ -44,3 +44,16 @@ export function validateFormRegistration(form) {
 
   return { errors, isValid };
 }
+<<<<<<< HEAD
+=======
+export function validateFormLogin(form) {
+  const errors = {
+    email: validateEmail(form.email),
+    password: validatePassword(form.password)
+  };
+
+  const isValid = Object.values(errors).every((err) => !err);
+
+  return { errors, isValid };
+}
+>>>>>>> login-front
