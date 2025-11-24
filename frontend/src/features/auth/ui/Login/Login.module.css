@@ -1,0 +1,72 @@
+.container{
+    padding: 
+    clamp(20px, 3.2vh, 65px)
+    clamp(16px, 3.47vw, 50px);
+}
+.tasks{
+    display: grid;
+    grid-template-columns: repeat(2,auto);
+    gap:clamp(8px, min(4.1vw, 3vh), 60px);
+    width: fit-content;
+}
+.content{
+    display: flex;
+    flex-direction: row;
+    gap: 50px ;
+}
+.form{
+    display: flex;
+    flex-direction: column;
+    
+    gap: clamp(10px , 1.8vh,30px);
+}
+.button{
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    align-items: center;
+    gap: 12px;
+}
+.refContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+.ref{
+    font-weight: 600;
+    font-size: 10px;
+    outline: none;
+    color:#546FFF;
+    text-decoration:none;
+    line-height: 150%;
+    width: fit-content;
+}
+.header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+.left{
+    display: flex;
+    flex-direction: column;
+    gap:clamp(8px, min(4.1vw, 3vh), 60px);
+}
+.right{
+    display: flex;
+    flex-direction: column;
+    gap:clamp(8px, min(4.1vw, 3vh), 60px);
+    margin: 0 auto;
+}
+.title{
+    font-size: 16px;
+    font-weight: 600;
+}
+.titleContainer{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: fit-content;
+    gap: 12px;
+}   

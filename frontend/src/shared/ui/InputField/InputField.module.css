@@ -1,0 +1,55 @@
+.inputField{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.errorMessage{
+    color: var(--error-color);
+    width: 100%;
+    opacity: 0;
+    animation: fadeIn 0.25s ease forwards;
+    opacity: 0;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.inputWrapper{
+    border:1px solid #D9D9D9;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    cursor: text;
+    transform: border 0.3s ease;
+}
+.input{
+    display: flex;
+    width: 100%;
+    padding: 14px 17px;
+    padding-inline:none;
+    outline: none;
+    border: none;
+    border-radius: 15px;
+    background-color: transparent;
+}
+.label{
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 150%;
+}
+.input::placeholder{
+    opacity: 0.4;
+}
+.icon{
+    margin-right: 17px;
+}
+.error{
+    border: 1px solid var(--error-color);
+}
