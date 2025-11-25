@@ -1,0 +1,7 @@
+package com.taskmanager.exception;
+
+public class ValidationException extends ApiException {
+    public ValidationException(String message) {
+        super(message);
+    }
+}

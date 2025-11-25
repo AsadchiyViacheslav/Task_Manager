@@ -7,10 +7,7 @@ export class useAuthErrorHandler extends BaseErrorHandler {
 
     this.STATUS_MESSAGES = {
       login: {
-<<<<<<< HEAD
-=======
         404: "Ошибка сервера. Попробуйте позже",
->>>>>>> login-front
         400: "Введите корректные данные для входа",
         401: "Неверный email или пароль",
         404: "Пользователь не найден",
@@ -18,10 +15,7 @@ export class useAuthErrorHandler extends BaseErrorHandler {
         500: "Ошибка сервера. Попробуйте позже",
       },
       signup: {
-<<<<<<< HEAD
-=======
         404: "Ошибка сервера. Попробуйте позже",
->>>>>>> login-front
         400: "Введите корректные данные для регистрации",
         409: "Этот email или телефон уже используется. Попробуйте войти",
         429: "Слишком много попыток. Подождите немного",
@@ -57,11 +51,7 @@ export class useAuthErrorHandler extends BaseErrorHandler {
   }
 
   static handle(error, context) {
-<<<<<<< HEAD
-    const instance = new AuthErrorHandler();
-=======
     const instance = new useAuthErrorHandler();
->>>>>>> login-front
 
     if (context === "login") {
       return instance.handleLoginError(error);

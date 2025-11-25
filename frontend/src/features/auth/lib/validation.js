@@ -44,8 +44,6 @@ export function validateFormRegistration(form) {
 
   return { errors, isValid };
 }
-<<<<<<< HEAD
-=======
 export function validateFormLogin(form) {
   const errors = {
     email: validateEmail(form.email),
@@ -56,4 +54,3 @@ export function validateFormLogin(form) {
 
   return { errors, isValid };
 }
->>>>>>> login-front

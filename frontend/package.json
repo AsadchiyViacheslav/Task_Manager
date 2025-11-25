@@ -6,7 +6,14 @@
   },
   "dependencies": {
     "@radix-ui/react-slider": "^1.3.6",
+<<<<<<< HEAD
     "react": "^19.2.0",
+=======
+    "chart.js": "^4.5.1",
+    "keen-slider": "^6.8.6",
+    "react": "^19.2.0",
+    "react-chartjs-2": "^5.3.1",
+>>>>>>> 75572e14bd84b18986f0734f2fe72c5600b57815
     "react-dom": "^19.2.0",
     "react-router-dom": "^7.9.6",
     "vite-plugin-svgr": "^4.5.0",

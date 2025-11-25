@@ -10,9 +10,11 @@ export default function Task({
     img,
     title,
     subtitle,
-    progress=0,
+    progress = 0,
     setProgress,
     time,
+    subtasks = [],
+    showSubtasks = false,
     className = "",
     imgClass = "",
     titleContainerClass = "",
@@ -22,16 +24,16 @@ export default function Task({
     animatedSkeleton = true,
 }) {
     const [value, setValue] = useState(progress)
-    const skeletonClass = animatedSkeleton
-            ? s.skeletonAnimated
-            : s.skeleton
+    const skeletonClass = animatedSkeleton ? s.skeletonAnimated : s.skeleton
     const [loaded, setLoaded] = useState(false);
-    const onChangeProgress = (value)=>{
+
+    const onChangeProgress = (value) => {
         setValue(value)
-        setProgress(value)
+        setProgress && setProgress(value)
     }
+
     const timeString = timeToString(time);
-    // console.log(timeString)
+    // console.log(img)
     return (
         <div className={`${s.container} ${className}`}>
             {skeleton ? (
@@ -56,41 +58,40 @@ export default function Task({
                 </>
             ) : (
                 <>
-                    {!loaded && (
-                        <div className={`${s.galleryWrapper} ${skeletonClass}`}>
+                    {(!loaded || !img || img.length === 0) && (
+                        <div className={`${s.galleryWrapper} ${img ? skeletonClass : ""}`}>
                             <Photo className={s.galleryIcon} />
                         </div>
                     )}
 
-                    <img
+                    {img&&<img
                         src={img}
                         className={`${imgClass} ${!loaded ? s.hiddenImage : ""}`}
                         onLoad={() => setLoaded(true)}
-                    />
+                    />}
 
                     <div className={`${s.titleContainer} ${titleContainerClass}`}>
                         <p className={s.title}>{title}</p>
                         <p className={s.subtitle}>{subtitle}</p>
                     </div>
 
-                    
                     <div className={`${s.progressContainer} ${progressContainerClass}`}>
                         <div className={s.progressText}>
                             <p className={s.text}>Прогресс</p>
                             <p className={`${s.text} ${s.progress}`}>{value} %</p>
                         </div>
                         <Slider.Root
-                        className={s.root}
-                        value={[value]}
-                        min={0}
-                        max={100}
-                        step={1}
-                        onValueChange={(v) => onChangeProgress(v[0])}
+                            className={s.root}
+                            value={[value]}
+                            min={0}
+                            max={100}
+                            step={1}
+                            onValueChange={(v) => onChangeProgress(v[0])}
                         >
-                        <Slider.Track className={s.track}>
-                            <Slider.Range className={s.range} />
-                        </Slider.Track>
-                        <Slider.Thumb className={s.thumb} />
+                            <Slider.Track className={s.track}>
+                                <Slider.Range className={s.range} />
+                            </Slider.Track>
+                            <Slider.Thumb className={s.thumb} />
                         </Slider.Root>
                     </div>
 
@@ -98,6 +99,25 @@ export default function Task({
                         <Time />
                         <p className={s.text}>{timeString}</p>
                     </div>
+                    {showSubtasks && subtasks.length > 0 && (
+                        <>
+                        <div className={s.line}>
+
+                        </div>
+                        <div className={s.subtasksContainer}>
+                            {subtasks.map((subtask, index) => (
+                                <div className={s.subtaskDescription}>
+                                    <div className={s.number}>
+                                        <p >{index+1}</p>
+                                    </div>
+                                    <p key={index} className={s.subtaskText}>
+                                        {subtask.description}
+                                    </p>
+                                </div>
+                            ))}
+                        </div>
+                        </>
+                    )}
                 </>
             )}
         </div>
