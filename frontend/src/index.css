@@ -10,7 +10,7 @@
 
 body {
   font-family: "Inter", sans-serif;
-  background-color: #F5F5F7;
+  background-color: #fafafa;
   margin: 0;
 }
 p,input {
@@ -21,7 +21,7 @@ p,input {
   color: var(--body-dark-color);
   margin: 0;
 }
-h1{
+h1,h2{
   font-size: 24px;
   font-weight: 600;
   line-height: 150%;

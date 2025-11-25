@@ -1,0 +1,54 @@
+.title{
+    font-size: 16px;
+    font-weight: 600;
+}
+.menu{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    padding: 32px;
+    gap: 60px;
+    background-color: white;
+    width: 252px;
+    box-sizing: border-box;
+}
+.links{
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+.link,
+.activeLink{
+    display: flex;
+    flex-direction: row;
+    border-radius: 10px;
+    padding: 10px 20px;
+    gap: 10px;
+    text-decoration: none;
+    align-items: center;
+}
+.text{
+    font-size: 14px;
+    font-weight: 600;
+}
+.link p{
+    color: var(--body-light-color);
+}
+.link path{
+    stroke: var(--body-light-color);
+}
+.activeLink{
+    background-color: #F5F5F7;
+}
+.activeLink p{
+    color: var(--body-dark-color);
+}
+.activeLink path{
+    stroke: var(--body-dark-color);
+}
+.logo{
+    display: flex;
+    flex-direction: row;
+    gap:12px;
+    align-items: center;
+}

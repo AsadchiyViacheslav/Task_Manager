@@ -1,0 +1,50 @@
+[
+  {
+    "img": "",
+    "title": "Создать дизайн главной страницы",
+    "subtitle": "Frontend команда",
+    "progress": 45,
+    "time": "2025-11-25T18:30:00.000Z",
+    "subtasks": [
+      { "description": "Нарисовать wireframe" },
+      { "description": "Создать макет в Figma" },
+      { "description": "Подготовить адаптивные версии для мобильных устройств" }
+    ]
+  },
+  {
+    "img": "",
+    "title": "Настроить авторизацию через OAuth",
+    "subtitle": "Backend команда",
+    "progress": 70,
+    "time": "2025-11-26T15:15:00.000Z",
+    "subtasks": [
+      { "description": "Подключить Google OAuth" },
+      { "description": "Подключить GitHub OAuth" },
+      { "description": "Сохранение токенов в базе данных" }
+    ]
+  },
+  {
+    "img": "",
+    "title": "Проверка багов на мобильной версии",
+    "subtitle": "QA команда",
+    "progress": 30,
+    "time": "2025-11-26T20:45:00.000Z",
+    "subtasks": [
+      { "description": "Проверка на iOS" },
+      { "description": "Проверка на Android" },
+      { "description": "Проверка разных разрешений экранов" }
+    ]
+  },
+  {
+    "img": "",
+    "title": "Добавить новые фильтры в задачи",
+    "subtitle": "Frontend команда",
+    "progress": 0,
+    "time": "2025-11-26T12:00:00.000Z",
+    "subtasks": [
+      { "description": "Фильтр по статусу" },
+      { "description": "Фильтр по приоритету" },
+      { "description": "Фильтр по дате создания" }
+    ]
+  }
+]
