@@ -35,6 +35,18 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<?> login(
+            @Valid @RequestBody LoginRequest request,
+            HttpServletResponse response) {
+
+        log.info("Login attempt: password={}, email={}", request.getPassword(), request.getEmail());
+        String[] tokens = authService.login(request);
+        setTokenCookies(response, tokens[0], tokens[1]);
+
+        return ResponseEntity.ok().build();
+    }
+
     @PostMapping("/refresh")
     public ResponseEntity<?> refreshToken(
             @CookieValue(value = "refreshToken", required = false) String refreshToken,
