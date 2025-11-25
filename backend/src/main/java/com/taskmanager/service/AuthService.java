@@ -94,4 +94,9 @@ public class AuthService {
 
         return new String[]{newAccessToken, newRefreshToken};
     }
+
+    @Transactional
+    public void logout(Long userId) {
+        refreshTokenRepository.deleteByUserId(userId);
+    }
 }

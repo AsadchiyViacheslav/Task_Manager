@@ -62,6 +62,17 @@ public class AuthController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(HttpServletResponse response) {
+        var auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null && auth.getPrincipal() instanceof Long userId) {
+            authService.logout(userId);
+        }
+
+        clearTokenCookies(response);
+        return ResponseEntity.ok().build();
+    }
+
     private void setTokenCookies(HttpServletResponse response, String accessToken, String refreshToken) {
         ResponseCookie accessCookie = ResponseCookie
                 .from("accessToken", accessToken)
@@ -78,6 +89,29 @@ public class AuthController {
                 .secure(false)
                 .path("/")
                 .maxAge(604800) // 7 days
+                .sameSite("None")
+                .build();
+
+        response.addHeader(HttpHeaders.SET_COOKIE, accessCookie.toString());
+        response.addHeader(HttpHeaders.SET_COOKIE, refreshCookie.toString());
+    }
+
+    private void clearTokenCookies(HttpServletResponse response) {
+        ResponseCookie accessCookie = ResponseCookie
+                .from("accessToken", "")
+                .httpOnly(true)
+                .secure(false)
+                .path("/")
+                .maxAge(0)
+                .sameSite("None")
+                .build();
+
+        ResponseCookie refreshCookie = ResponseCookie
+                .from("refreshToken", "")
+                .httpOnly(true)
+                .secure(false)
+                .path("/")
+                .maxAge(0)
                 .sameSite("None")
                 .build();
 
