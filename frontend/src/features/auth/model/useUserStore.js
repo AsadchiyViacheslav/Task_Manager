@@ -59,6 +59,11 @@ export const useUserStore = create((set, get) => ({
         isLoggedIn: false,
       });
     } catch (e) {
+      set({
+        name: "",
+        accessToken: "",
+        isLoggedIn: false,
+      });
       throw e;
     }
   },

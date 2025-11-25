@@ -9,6 +9,7 @@ import Arrow from "../../assets/icons/arrow.svg?react"
 import s from "./Home.module.css";
 import Chart from "./share/Chart";
 import { data } from "./share/mock";
+import Avatar from "./share/Avatar/Avatar";
 
 
 export default function Home() {
@@ -109,9 +110,7 @@ export default function Home() {
           </div>
         </div>
         <div className={s.right}>
-          <div className={s.avatarContainer}>
-            <img className={s.avatar} src={avatar} alt="" />
-          </div>
+          <Avatar/>
           {firstTask && (
             <Task
               key={firstTask.id}
