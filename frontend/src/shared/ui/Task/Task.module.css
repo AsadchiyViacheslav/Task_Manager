@@ -140,3 +140,73 @@
     flex-direction: column;
     gap: 20px;
 }
+.titleContainer{
+    display: flex;
+    flex-direction: column;
+    gap:8px;
+}
+.imgSkeleton{
+    border: 1px solid #F5F5F7;
+    border-radius: 10px;
+}
+.lineSkeleton{
+    height: 16px;
+    background-color: rgba(84,111,255,0.32);
+    border-radius: 20px;
+    width: 148px;
+    margin: 8px 0;
+}
+.lineSkeletonSmall{
+    height: 12px;
+    background-color: rgba(84,111,255,0.12);
+    border-radius: 20px;
+    width: 148px;
+    margin: 1.5px 0;
+}
+.circleSkeleton{
+    height: 15px;
+    width: 15px;
+    background-color: rgba(84,111,255,0.32);
+    border-radius: 15px;
+}
+.progressTitle{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+.titleProgress{
+    height: 16px;
+    background-color: rgba(84,111,255,0.32);
+    border-radius: 20px;
+    width: 90px;
+    margin: 8px 0;
+}
+.progressBarSkeleton {
+  width: 100%;
+  height: 8px;
+  border-radius: 8px;
+  background: linear-gradient(
+    to right,
+    #546FFF 50%,
+    rgba(84, 111, 255, 0.28) 50%
+  );
+}
+.progressCircle{
+    width: 14px;
+    height: 14px;
+    background-color: #546FFF;
+    position: absolute;
+    border: 2px solid white;
+    left: calc(50% - 8px);
+    top: -50%;
+}
+.progressBar{
+    position: relative;
+
+}
+.timeContainer{
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 16px;
+}

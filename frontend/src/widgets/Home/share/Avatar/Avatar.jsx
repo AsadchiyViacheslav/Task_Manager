@@ -3,12 +3,11 @@ import s from "./Avatar.module.css";
 import { useUserStore } from "../../../../features/auth/model/useUserStore";
 import Button from "../../../../shared/ui/Button/Button";
 
-export default function Avatar() {
+export default function Avatar({className}) {
   const [open, setOpen] = useState(false);
   const popupRef = useRef(null);
   const logout = useUserStore((state) => state.logout);
   const avatar = useUserStore((state)=>state.avatar);
-  console.log(useUserStore((state)=>state.isLoggedIn))
 
   const handleToggle = () => setOpen((prev) => !prev);
 
@@ -21,7 +20,7 @@ export default function Avatar() {
   };
 
   return (
-    <div className={s.avatarWrapper} ref={popupRef}>
+    <div className={`${s.avatarWrapper} ${className}`}  ref={popupRef}>
       <img
         className={s.avatar}
         src={avatar}

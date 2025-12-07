@@ -8,9 +8,11 @@ import Logo from "../../../../assets/icons/logo.svg?react";
 import s from "./Login.module.css";
 import Task from "../../../../shared/ui/Task/Task";
 import { validateFormLogin } from "../../lib/validation";
+import { useNavigate } from "react-router-dom";
 
 
 export default function Login() {
+  const nav = useNavigate()
   const [form, setForm] = useState({
     email: "",
     password: ""
@@ -40,9 +42,12 @@ export default function Login() {
     }
     try {
       await login(form);
+      console.log("few")
+      nav("/");
     } catch (e) {
       const handle = useAuthErrorHandler.handle(e, "login");
       setGlobalError(handle);
+      nav("/");
     }
   };
 
@@ -82,7 +87,7 @@ export default function Login() {
               placeholder="Введите Пароль"
             />
 
-            {globalError && <p className={s.globalError}>{globalError}</p>}
+            {globalError && <p className={s.globalError}>{globalError.globalError}</p>}
 
             <div className={s.button}>
               <Button onClick={handleSubmit}>Войти</Button>

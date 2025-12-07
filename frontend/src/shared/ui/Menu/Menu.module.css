@@ -9,7 +9,7 @@
     padding: 32px;
     gap: 60px;
     background-color: white;
-    width: 252px;
+    min-width: 252px;
     box-sizing: border-box;
 }
 .links{

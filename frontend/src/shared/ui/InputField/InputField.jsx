@@ -19,7 +19,6 @@ export default function InputField({
 }) {
   const Component = as === "textarea" ? "textarea" : "input";
   const inputRef = useRef(null);
-  console.log(error)
   return (
     <div className={`${s.inputField} ${classNameField}`}>
       {label && <p className={`${s.label} ${classNameLabel}`}>{label}</p>}

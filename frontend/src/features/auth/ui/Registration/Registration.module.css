@@ -51,6 +51,7 @@
     display: flex;
     flex-direction: column;
     gap:clamp(8px, min(4.1vw, 3vh), 60px);
+    max-width: 300px;
     margin: 0 auto;
 }
 .title{
@@ -63,4 +64,7 @@
     align-items: center;
     width: fit-content;
     gap: 12px;
+}
+.globalError{
+    color: var(--error-color);
 }   
