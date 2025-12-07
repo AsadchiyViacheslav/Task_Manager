@@ -42,4 +42,21 @@ public class PhotoService {
 
         return fileService.getFileUrl(filename);
     }
+
+    public void deletePhoto(Long taskId, Long userId) {
+        Task task = taskRepository.findByIdAndCreatorId(taskId, userId)
+                .orElseThrow(() -> new NotFoundException("Задача не найдена"));
+
+        Photo photo = photoRepository.findByTaskId(taskId)
+                .orElseThrow(() -> new NotFoundException("Задача не найдена"));
+
+        fileService.deleteFile(photo.getFilename());
+        photoRepository.delete(photo);
+    }
+
+    public String getPhotoUrl(Long taskId) {
+        Photo photo = photoRepository.findByTaskId(taskId)
+                .orElseThrow(() -> new NotFoundException("Фото не найдено"));
+        return photo.getFilepath();
+    }
 }

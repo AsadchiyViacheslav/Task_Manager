@@ -47,4 +47,23 @@ public class SubTaskController {
         subTaskService.deleteSubTask(taskId, subTaskId, userId);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/{subTaskId}")
+    public ResponseEntity<SubTaskResponse> getSubTask(
+            @PathVariable Long taskId,
+            @PathVariable Long subTaskId,
+            HttpServletRequest httpRequest) {
+        Long userId = tokenExtractor.getUserIdFromRequest(httpRequest);
+        SubTaskResponse response = subTaskService.getSubTask(taskId, subTaskId, userId);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<SubTaskResponse>> getSubTasks(
+            @PathVariable Long taskId,
+            HttpServletRequest httpRequest) {
+        Long userId = tokenExtractor.getUserIdFromRequest(httpRequest);
+        List<SubTaskResponse> response = subTaskService.getSubTasksByTask(taskId, userId);
+        return ResponseEntity.ok(response);
+    }
 }

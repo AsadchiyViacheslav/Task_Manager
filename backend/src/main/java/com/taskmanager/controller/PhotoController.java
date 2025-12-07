@@ -43,4 +43,19 @@ public class PhotoController {
         String photoUrl = photoService.uploadPhoto(taskId, file, userId);
         return ResponseEntity.ok(photoUrl);
     }
+
+    @DeleteMapping
+    public ResponseEntity<?> deletePhoto(
+            @PathVariable Long taskId,
+            HttpServletRequest httpRequest) {
+        Long userId = tokenExtractor.getUserIdFromRequest(httpRequest);
+        photoService.deletePhoto(taskId, userId);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping
+    public ResponseEntity<String> getPhotoUrl(@PathVariable Long taskId) {
+        String photoUrl = photoService.getPhotoUrl(taskId);
+        return ResponseEntity.ok(photoUrl);
+    }
 }

@@ -29,3 +29,6 @@ logs/
 ### Env files ###
 *.env
 .env.*
+
+### Files ###
+uploads/

@@ -52,10 +52,10 @@ public class AuthService {
 
     public String[] login(LoginRequest request) {
         User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new UnauthorizedException("Неправильная почта и пароль"));
+                .orElseThrow(() -> new UnauthorizedException("Неправильная почта или пароль"));
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPasswordHash())) {
-            throw new UnauthorizedException("Неправильная почта и пароль");
+            throw new UnauthorizedException("Неправильная почта или пароль");
         }
 
         String accessToken = jwtUtil.generateAccessToken(user.getId(), user.getEmail());

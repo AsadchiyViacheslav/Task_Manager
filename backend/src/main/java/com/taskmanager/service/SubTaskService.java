@@ -62,6 +62,25 @@ public class SubTaskService {
         subTaskRepository.delete(subTask);
     }
 
+    public SubTaskResponse getSubTask(Long taskId, Long subTaskId, Long userId) {
+        Task task = taskRepository.findByIdAndCreatorId(taskId, userId)
+                .orElseThrow(() -> new NotFoundException("Задача не найдена"));
+
+        SubTask subTask = subTaskRepository.findByIdAndTaskCreatorId(subTaskId, userId)
+                .orElseThrow(() -> new NotFoundException("Подзадача не найдена"));
+
+        return mapToSubTaskResponse(subTask);
+    }
+
+    public List<SubTaskResponse> getSubTasksByTask(Long taskId, Long userId) {
+        Task task = taskRepository.findByIdAndCreatorId(taskId, userId)
+                .orElseThrow(() -> new NotFoundException("Задача не найдена"));
+
+        return subTaskRepository.findByTaskId(taskId).stream()
+                .map(this::mapToSubTaskResponse)
+                .collect(Collectors.toList());
+    }
+
     private SubTaskResponse mapToSubTaskResponse(SubTask subTask) {
         return SubTaskResponse.builder()
                 .id(subTask.getId())
