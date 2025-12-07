@@ -42,7 +42,9 @@ export const useTasksApi = {
         if (!response.ok) {
             throw new Error("Не удалось загрузить задачи");
         }
+            console.log(response)
             const data = await response.json();
+            console.log(data)
             return data;
         } catch (error) {
             console.error("Ошибка при получении задач:", error);

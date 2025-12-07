@@ -4,7 +4,8 @@ import { useAuthApi } from "../lib/apiUser";
 export const useUserStore = create((set, get) => ({
   name: "",
   accessToken: "",
-  isLoggedIn: false,
+  isLoggedIn: true,
+  avatar:"/profile.svg",
 
   setUser: ({ name, accessToken }) =>
     set(() => ({

@@ -1,6 +1,6 @@
 .container{
-    display: grid;
-    grid-template-columns: auto 432px;
+    display: flex;
+    flex-direction: row;
     flex:1;
     height: 100vh;
     max-width: calc(100vw - 252px);
@@ -20,26 +20,32 @@
     display: flex;
     flex-direction: column;
     background-color: #F5F5F7;
-    padding: 32px;
+    padding: 16px;
     gap: 48px;
     align-items: flex-end;
 }
-.sliderWrapper{
-    display: flex;
-    flex-direction: column;
-    max-width: calc(100vw - 252px - 432px - 64px);
-    gap: 20px;
+.sliderContainer {
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+  max-width: calc(100vw - 252px - 432px);
 }
-.keenSlider{
+
+.sliderContent {
     display: flex;
-    flex-direction: row;
+  gap: 16px;
+  transition: transform 0.35s ease;
+}
+
+.slide {
+  flex: 0 0 328px;
 }
 .left{
     display: flex;
     flex:1;
     flex-direction: column;
     gap: 30px;
-    padding: 32px;
+    padding: 16px;
 }
 .current{
     width: 100%;
@@ -73,9 +79,11 @@
     margin-top: 24px;
     margin-bottom: 26px;
 }
+.slider{
+    gap: 16px;
+}
 .slide{
-    display: flex;
-    justify-content: center;
+    width: 328px;
 }
 .stats{
     display: flex;
@@ -153,4 +161,7 @@
     display: flex;
     flex-direction: row;
     gap: 20px;
+}
+.task{
+    width:100%;
 }

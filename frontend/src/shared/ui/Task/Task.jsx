@@ -47,13 +47,19 @@ export default function Task({
                     </div>
 
                     <div className={`${s.progressContainer} ${progressContainerClass}`}>
-                        <div className={`${s.lineSkeleton} ${skeletonClass}`} />
-                        <div className={`${s.progressBarSkeleton} ${skeletonClass}`} />
+                        <div className={s.progressTitle}>
+                        <div className={`${s.titleProgress} ${skeletonClass}`} />
+                        <div className={`${s.circleSkeleton} ${skeletonClass}`} />
+                        </div>
+                        <div className={s.progressBar}>
+                            <div className={`${s.progressBarSkeleton} ${skeletonClass}`} />
+                            <div className={`${s.circleSkeleton} ${s.progressCircle} ${skeletonClass}`} />
+                        </div>
                     </div>
 
                     <div className={`${s.timeContainer} ${timeContainerClass}`}>
-                        <div className={`${s.iconSkeleton} ${skeletonClass}`} />
-                        <div className={`${s.lineSkeletonSmall} ${skeletonClass}`} />
+                        <div className={`${s.titleProgress} ${skeletonClass}`} />
+                        <div className={`${s.circleSkeleton} ${skeletonClass}`} />
                     </div>
                 </>
             ) : (
@@ -106,7 +112,7 @@ export default function Task({
                         </div>
                         <div className={s.subtasksContainer}>
                             {subtasks.map((subtask, index) => (
-                                <div className={s.subtaskDescription}>
+                                <div key={index} className={s.subtaskDescription}>
                                     <div className={s.number}>
                                         <p >{index+1}</p>
                                     </div>

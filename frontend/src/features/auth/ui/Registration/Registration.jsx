@@ -105,7 +105,7 @@ export default function Registration() {
                             error={error?.repeatPassword||""}
                             placeholder="Повторите пароль"
                         />
-                        
+                        {globalError && <p className={s.globalError}>{globalError.globalError}</p>}
                         <div className={s.button}>
                             <Button onClick={handleSubmit}>
                                 Зарегистрироваться

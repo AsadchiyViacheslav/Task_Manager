@@ -3,36 +3,20 @@ import { useUserStore } from "../../features/auth/model/useUserStore";
 import { useTasksStore } from "../../features/tasks/model/useTasksStore";
 import Menu from "../../shared/ui/Menu/Menu";
 import Task from "../../shared/ui/Task/Task";
-import { useKeenSlider } from "keen-slider/react";
-import "keen-slider/keen-slider.min.css";
-import Arrow from "../../assets/icons/arrow.svg?react"
+import Arrow from "../../assets/icons/arrow.svg?react";
 import s from "./Home.module.css";
 import Chart from "./share/Chart";
 import { data } from "./share/mock";
 import Avatar from "./share/Avatar/Avatar";
-
 
 export default function Home() {
   const avatar = useUserStore((state) => state.avatar);
   const tasks = useTasksStore((state) => state.tasks);
   const getAll = useTasksStore((state) => state.getAll);
   const setProgress = useTasksStore((state) => state.setProgress);
-  const [slideCount,setSlideCount]=useState(2);
-  const allTasks = 100
-  const taskComplite = 45
+  const allTasks = 100;
+  const taskComplite = 45;
 
-
-  useEffect(() => {
-    const calculateSlideCount = () => {
-      const availableWidth = window.innerWidth - 684 - 64;
-      const count = Math.floor((availableWidth) / (328 + 32)); 
-      console.log(availableWidth,count)
-      setSlideCount(count > 0 ? count : 1);
-    };
-    calculateSlideCount();
-    window.addEventListener("resize", calculateSlideCount);
-    return () => window.removeEventListener("resize", calculateSlideCount);
-  }, []);
   useEffect(() => {
     const fetchTasks = async () => {
       try {
@@ -43,77 +27,102 @@ export default function Home() {
     };
     fetchTasks();
   }, [getAll]);
-  console.log(slideCount)
+
   const firstTask = tasks[0];
   const otherTasks = tasks.slice(1);
+  const [offset, setOffset] = useState(0);
+  const slideWidth = 328;
+  const spacing = 16;
 
-  const [sliderRef, slider] = useKeenSlider({
-    slides: { perView: slideCount, spacing: 16 },
-    loop: false,
-  });
+  function containerWidth() {
+    const el = document.querySelector(`.${s.sliderContainer}`);
+    return el ? el.clientWidth : 0;
+  }
 
-  const handlePrev = () => slider.current?.prev();
-  const handleNext = () => slider.current?.next();
+  const handlePrev = () => {
+    setOffset((prev) => Math.min(prev + slideWidth + spacing, 0));
+  };
+
+  const handleNext = () => {
+    const max = -(otherTasks.length * (slideWidth + spacing - 4) - containerWidth());
+    setOffset((prev) => Math.max(prev - (slideWidth + spacing), max));
+  };
 
   return (
     <div style={{ display: "flex" }}>
       <Menu />
       <div className={s.container}>
         <div className={s.left}>
-            <h1 className={s.title}>Добро пожаловать!</h1>
-            <div className={s.info}>
-                <div className={s.statsContainer}>
-                    <div className={s.stats}>
-                        <p className={s.titleStats}>Выполненные задачи</p>
-                        <p className={s.remained}>{allTasks-taskComplite}</p>
-                        <div className={s.contentStats}>
-                            <div className={s.percentCircle } style={{
-                                background: `conic-gradient(#546FFF ${(taskComplite / allTasks) * 100 * 3.6}deg, #1A1E38 0deg)`,
-                            }}>
-                                <div className={s.innerCircle}>
-                                    <p className={s.percent}>{taskComplite/allTasks*100} %</p>
-                                </div>
-                            </div>
-                            <div className={s.allTasksContainer}>
-                                <p className={s.allTasks}>{allTasks}</p>
-                                <p className={s.allTasksSubText}>Задач</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
+          <h1 className={s.title}>Добро пожаловать!</h1>
 
+          <div className={s.info}>
+            <div className={s.statsContainer}>
+              <div className={s.stats}>
+                <p className={s.titleStats}>Выполненные задачи</p>
+                <p className={s.remained}>{allTasks - taskComplite}</p>
+
+                <div className={s.contentStats}>
+                  <div
+                    className={s.percentCircle}
+                    style={{
+                      background: `conic-gradient(#546FFF ${
+                        (taskComplite / allTasks) * 100 * 3.6
+                      }deg, #1A1E38 0deg)`,
+                    }}
+                  >
+                    <div className={s.innerCircle}>
+                      <p className={s.percent}>{(taskComplite / allTasks) * 100} %</p>
                     </div>
+                  </div>
+
+                  <div className={s.allTasksContainer}>
+                    <p className={s.allTasks}>{allTasks}</p>
+                    <p className={s.allTasksSubText}>Задач</p>
+                  </div>
                 </div>
-                <Chart data={data}/>
+              </div>
             </div>
+
+            <Chart data={data} />
+          </div>
+
           <div className={s.sliderWrapper}>
             <div className={s.tasksTitle}>
-                <h2>Текущие задачи</h2>
-            <div className={s.arrowContainer}>
+              <h2>Текущие задачи</h2>
+              <div className={s.arrowContainer}>
                 <div className={s.arrow}>
-                <Arrow onClick={handlePrev} className={`${s.arrow} ${s.leftArrow}`}/>
+                  <Arrow onClick={handlePrev} className={`${s.arrow} ${s.leftArrow}`} />
                 </div>
                 <div className={s.arrow}>
-                <Arrow onClick={handleNext} className={s.arrow}/>
+                  <Arrow onClick={handleNext} className={s.arrow} />
                 </div>
-            </div>
-            </div>
-            <div ref={sliderRef} className="keen-slider">
-              {otherTasks.map((task) => (
-                <div className={`keen-slider__slide ${s.slide}`} key={task.id}>
-                  <Task {...task} setProgress={(value) => setProgress(task.id, value)} />
-                </div>
-              ))}
+              </div>
             </div>
 
-            
+            <div className={s.sliderContainer}>
+              <div
+                className={s.sliderContent}
+                style={{ transform: `translateX(${offset}px)` }}
+              >
+                {otherTasks.map((task, id) => (
+                  <div className={s.slide} key={id}>
+                    <Task
+                      className={s.task}
+                      {...task}
+                      setProgress={(value) => setProgress(task.id, value)}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
+
         <div className={s.right}>
-          <Avatar/>
+          <Avatar />
           {firstTask && (
             <Task
-              key={firstTask.id}
+              key={0}
               {...firstTask}
               showSubtasks={true}
               className={s.current}
