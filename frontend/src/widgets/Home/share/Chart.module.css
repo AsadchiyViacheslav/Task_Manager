@@ -1,0 +1,89 @@
+.chart{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: #F5F5F7;
+    border-radius: 10px;
+    padding: 20px;
+    max-height: 214px;
+    gap: 8px;
+    box-sizing: border-box;
+}
+.chartWrapper{
+    width: 100%;
+    height: 130px;
+    background-color: white;
+    padding: 16px;
+    border-radius: 10px;
+    box-sizing: border-box;
+}
+.header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.title{
+    font-size: 16px;
+    font-weight: 600;
+}
+.dropDownCurrent{
+    font-size: 12px;
+    font-weight: 500;
+}
+.dropDown{
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+    cursor: pointer;
+}
+.arrow{
+    width: 12px;
+    height: 12px;
+    transition: transform 0.3s ease;
+}
+.arrow path{
+    transition: stroke 0.3s ease;
+}
+.arrow.hover,
+.arrow.active {
+    transform: rotate(90deg);
+}
+.arrow.hover.active{
+    transform: rotate(-90deg);
+}
+.arrow.hover path{
+    stroke: #54577A;
+}
+.dropDownMenu{
+    position: absolute;
+    top:calc(100%);
+    left:-8px;
+    padding: 8px;
+    border-radius: 10px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #D9D9D9;
+}
+.dropDownWrapper{
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+.el{
+    font-size: 12px;
+    font-weight: 500;
+    line-height: normal;
+}
+.elContainer{
+    padding: 8px;
+    border-radius: 10px;
+    transition: background 0.3s ease;
+}
+.elContainer:hover{
+    padding: 8px;
+    border-radius: 10px;
+    background-color: #F5F5F7;
+}

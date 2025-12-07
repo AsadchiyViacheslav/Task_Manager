@@ -1,0 +1,13 @@
+.container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 8px 16px;
+    background-color: white;
+    width: 100%;
+    align-items: center;
+    box-sizing: border-box;
+}
+.avatar{
+    margin: 0;
+}
