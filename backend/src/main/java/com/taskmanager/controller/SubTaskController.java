@@ -27,4 +27,24 @@ public class SubTaskController {
         return ResponseEntity.ok(response);
     }
 
+    @PutMapping("/{subTaskId}")
+    public ResponseEntity<SubTaskResponse> updateSubTask(
+            @PathVariable Long taskId,
+            @PathVariable Long subTaskId,
+            @RequestBody UpdateSubTaskRequest request,
+            HttpServletRequest httpRequest) {
+        Long userId = tokenExtractor.getUserIdFromRequest(httpRequest);
+        SubTaskResponse response = subTaskService.updateSubTask(taskId, subTaskId, request, userId);
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/{subTaskId}")
+    public ResponseEntity<?> deleteSubTask(
+            @PathVariable Long taskId,
+            @PathVariable Long subTaskId,
+            HttpServletRequest httpRequest) {
+        Long userId = tokenExtractor.getUserIdFromRequest(httpRequest);
+        subTaskService.deleteSubTask(taskId, subTaskId, userId);
+        return ResponseEntity.ok().build();
+    }
 }
