@@ -36,8 +36,8 @@ export function validateFormRegistration(form) {
   const errors = {
     email: validateEmail(form.email),
     password: validatePassword(form.password),
-    repeatPassword: validateRepeatPassword(form.password, form.repeatPassword),
-    name: validateName(form.name),
+    passwordConfirm: validateRepeatPassword(form.password, form.passwordConfirm),
+    username: validateName(form.username),
   };
 
   const isValid = Object.values(errors).every((err) => !err);

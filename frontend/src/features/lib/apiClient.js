@@ -1,60 +1,44 @@
-
 export class ApiClient {
   constructor(config) {
     this.baseURL = config.baseURL;
     this.timeout = config.timeout || 10000;
-    this.getAuthToken = config.getAuthToken || (async () => null);
     this.onUnauthorized = config.onUnauthorized;
+    this.maxRetries = config.maxRetries || 1;
   }
 
-  async request(url, config = {}, retry = true, token) {
+  async request(url, config = {}, retry = true, attempt = 0) {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), this.timeout);
 
     try {
-      const authToken = token === undefined ? await this.getAuthToken() : token;
-
-      const headers = {
-        "Content-Type": "application/json",
-        "X-Requested-With": "XMLHttpRequest",
-      };
-
-      if (config.headers) {
-        const existingHeaders = new Headers(config.headers);
-        existingHeaders.forEach((value, key) => {
-          headers[key] = value;
-        });
-      }
-
-      if (authToken !== null) {
-        headers["Authorization"] = `Bearer ${authToken}`;
-      }
-
       const response = await fetch(this.baseURL + url, {
         ...config,
-        headers,
-        signal: controller.signal,
+        headers: {
+          "Content-Type": "application/json",
+          "X-Requested-With": "XMLHttpRequest",
+          ...config.headers,
+        },
         credentials: "include",
+        signal: controller.signal,
       });
 
       clearTimeout(timeoutId);
 
-      const responseData = await response.json();
+      const text = await response.text();
+      let responseData = null;
+      try {
+        responseData = text ? JSON.parse(text) : null;
+      } catch {
+        responseData = text;
+      }
+
+      if (response.status === 401 && retry && attempt < this.maxRetries && this.onUnauthorized) {
+        await this.onUnauthorized();
+        return this.request(url, config, false, attempt + 1);
+      }
 
       if (!response.ok) {
-        // if (
-        //   response.status === 401 &&
-        //   responseData.message === "Unauthorized" &&
-        //   retry &&
-        //   this.onUnauthorized
-        // ) {
-        //   // await this.onUnauthorized();
-        //   // return this.request(url, config, false, authToken);
-        // }
-        throw {
-          statusCode: response.status,
-          data: responseData,
-        };
+        throw { statusCode: response.status, data: responseData };
       }
 
       return responseData;
@@ -71,39 +55,23 @@ export class ApiClient {
     }
   }
 
-  get(url, config, token) {
-    return this.request(url, { ...config, method: "GET" }, true, token);
+  get(url, config) {
+    return this.request(url, { ...config, method: "GET" });
   }
 
-  post(url, data, config, token) {
-    return this.request(
-      url,
-      { ...config, method: "POST", body: JSON.stringify(data) },
-      true,
-      token
-    );
+  post(url, data, config) {
+    return this.request(url, { ...config, method: "POST", body: JSON.stringify(data) });
   }
 
-  put(url, data, config, token) {
-    return this.request(
-      url,
-      { ...config, method: "PUT", body: JSON.stringify(data) },
-      true,
-      token
-    );
+  put(url, data, config) {
+    return this.request(url, { ...config, method: "PUT", body: JSON.stringify(data) });
   }
 
-  patch(url, data, config, token) {
-    return this.request(
-      url,
-      { ...config, method: "PATCH", body: JSON.stringify(data) },
-      true,
-      token
-    );
+  patch(url, data, config) {
+    return this.request(url, { ...config, method: "PATCH", body: JSON.stringify(data) });
   }
 
-  delete(url, config, token) {
-    return this.request(url, { ...config, method: "DELETE" }, true, token);
+  delete(url, config) {
+    return this.request(url, { ...config, method: "DELETE" });
   }
 }
-

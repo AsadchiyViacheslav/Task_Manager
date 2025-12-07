@@ -9,6 +9,7 @@
     margin-top: 16px;
     margin-right: 10px;
     position: relative;
+    cursor: pointer;
 }
 .popup {
     position: absolute;
@@ -53,6 +54,7 @@
     background-color: var(--red-color);
     border: none;
     border-radius: 6px;
+    cursor: pointer;
 }
 .logoutButton p{
     color: white;

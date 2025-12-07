@@ -8,14 +8,16 @@ import IconPassword from "../IconPassword/IconPassword";
 import Task from "../../../../shared/ui/Task/Task";
 import Logo from "../../../../assets/icons/logo.svg?react"
 import s from "./Registration.module.css"
+import { useNavigate } from "react-router-dom";
 
 
 export default function Registration() {
+    const nav = useNavigate()
     const [form, setForm] = useState({
         email: "",
         password: "",
-        repeatPassword: "",
-        name: ""
+        passwordConfirm: "",
+        username: ""
     });
     const [error,setError]=useState(null)
     const reg = useUserStore((state)=>state.reg)
@@ -27,7 +29,7 @@ export default function Registration() {
         setShowPassword(prev => !prev);
         }, []);
 
-    const toggleShowRepeatPassword = useCallback(() => {
+    const toggleShowpasswordConfirm = useCallback(() => {
             setShowPasswordRepid(prev => !prev);
             }, []);
 
@@ -39,13 +41,18 @@ export default function Registration() {
         }));
     };
     const handleSubmit = async ()=>{
+        console.log(form)
         const {errors,isValid} =validateFormRegistration(form);
         if (isValid) {
             try{
+                console.log(form)
                 await reg(form)
+                nav("/")
             }catch (e){
                 const handel = useAuthErrorHandler.handle(e,"signup")
+                console.log(e,handel)
                 setGlobalError(handel)
+                throw e
             }
         } else{
             setError(errors)
@@ -75,9 +82,9 @@ export default function Registration() {
                         
                         <InputField
                             label="Имя"
-                            value={form.name}
-                            onChange={handleChange("name")}
-                            error={error?.name||""}
+                            value={form.username}
+                            onChange={handleChange("username")}
+                            error={error?.username||""}
                             placeholder="Введите Имя"
                         />
                         <InputField
@@ -97,12 +104,12 @@ export default function Registration() {
                             placeholder="Введите Пароль"
                         />
                         <InputField
-                            icon={<IconPassword isShow={showPasswordRepid} onChange={toggleShowRepeatPassword}/>}
+                            icon={<IconPassword isShow={showPasswordRepid} onChange={toggleShowpasswordConfirm}/>}
                             label="Повтор пароля"
                             type={showPasswordRepid?"password":"text"}
-                            value={form.repeatPassword}
-                            onChange={handleChange("repeatPassword")}
-                            error={error?.repeatPassword||""}
+                            value={form.passwordConfirm}
+                            onChange={handleChange("passwordConfirm")}
+                            error={error?.passwordConfirm||""}
                             placeholder="Повторите пароль"
                         />
                         {globalError && <p className={s.globalError}>{globalError.globalError}</p>}
