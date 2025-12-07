@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -19,4 +20,6 @@ public class TaskResponse {
     private TaskPriority priority;
     private TaskStatus status;
     private LocalDateTime createdAt;
+    private String photoPath;
+    private List<SubTaskResponse> subTasks;
 }

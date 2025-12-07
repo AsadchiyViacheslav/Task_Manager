@@ -1,5 +1,6 @@
 package com.taskmanager.service;
 
+
 import com.taskmanager.dto.*;
 import com.taskmanager.exception.*;
 import com.taskmanager.model.*;
@@ -14,7 +15,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class TaskService {
     private final TaskRepository taskRepository;
+    private final PhotoRepository photoRepository;
     private final UserRepository userRepository;
+    private final FileService fileService;
 
     public TaskResponse createTask(CreateTaskRequest request, Long userId) {
         User user = userRepository.findById(userId)
@@ -66,6 +69,11 @@ public class TaskService {
         Task task = taskRepository.findByIdAndCreatorId(taskId, userId)
                 .orElseThrow(() -> new NotFoundException("Задача не найдена"));
 
+        Photo photo = photoRepository.findByTaskId(taskId).orElse(null);
+        if (photo != null) {
+            fileService.deleteFile(photo.getFilename());
+        }
+
         taskRepository.deleteByIdAndCreatorId(taskId, userId);
     }
 
@@ -83,6 +91,19 @@ public class TaskService {
     }
 
     private TaskResponse mapToTaskResponse(Task task) {
+        List<SubTaskResponse> subTasks = task.getSubTasks().stream()
+                .map(st -> SubTaskResponse.builder()
+                        .id(st.getId())
+                        .description(st.getDescription())
+                        .completed(st.getCompleted())
+                        .build())
+                .collect(Collectors.toList());
+
+        String photoPath = null;
+        if (task.getPhoto() != null) {
+            photoPath = fileService.getFileUrl(task.getPhoto().getFilename());
+        }
+
         return TaskResponse.builder()
                 .id(task.getId())
                 .title(task.getTitle())
@@ -91,6 +112,8 @@ public class TaskService {
                 .priority(task.getPriority())
                 .status(task.getStatus())
                 .createdAt(task.getCreatedAt())
+                .photoPath(photoPath)
+                .subTasks(subTasks)
                 .build();
     }
 }

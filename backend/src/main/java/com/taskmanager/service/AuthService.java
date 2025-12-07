@@ -1,7 +1,10 @@
 package com.taskmanager.service;
 
-import com.taskmanager.dto.*;
-import com.taskmanager.exception.*;
+import com.taskmanager.dto.AuthResponse;
+import com.taskmanager.dto.LoginRequest;
+import com.taskmanager.dto.RegisterRequest;
+import com.taskmanager.exception.UnauthorizedException;
+import com.taskmanager.exception.ValidationException;
 import com.taskmanager.model.RefreshToken;
 import com.taskmanager.model.User;
 import com.taskmanager.repository.RefreshTokenRepository;

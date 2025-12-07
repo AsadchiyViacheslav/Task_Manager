@@ -1,5 +1,6 @@
 package com.taskmanager.util;
 
+import com.taskmanager.exception.UnauthorizedException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -12,10 +13,10 @@ public class TokenExtractor {
         var auth = SecurityContextHolder.getContext().getAuthentication();
 
         if (auth == null) {
-            throw new RuntimeException("Вы не авторизованны");
+            throw new UnauthorizedException("Вы не авторизованны");
         }
         if (auth.getPrincipal() == null) {
-            throw new RuntimeException("Вы не авторизованны");
+            throw new UnauthorizedException("Вы не авторизованны");
         }
         return (Long) auth.getPrincipal();
     }

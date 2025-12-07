@@ -45,6 +45,13 @@ public class Task {
     @JoinColumn(name = "creator_id", nullable = false)
     private User creator;
 
+    @OneToOne(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Photo photo;
+
+    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<SubTask> subTasks = new ArrayList<>();
+
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();

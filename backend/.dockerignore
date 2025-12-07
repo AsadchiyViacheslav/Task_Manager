@@ -26,6 +26,6 @@ logs/
 ### Tests ###
 /test/
 
-### Env files (если не хочешь копировать в контейнер) ###
+### Env files ###
 *.env
 .env.*
