@@ -1,0 +1,31 @@
+name: Docker Image CI/CD
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      - name: Build Docker image
+        run: |
+          IMAGE_TAG=my-image-name:$(date +%s)
+          docker-compose -f docker-compose.yaml build
+          docker tag my-service ${{ secrets.DOCKER_HUB_USERNAME }}/my-image-name:$IMAGE_TAG
+
+      - name: Push Docker image
+        run: |
+          IMAGE_TAG=my-image-name:$(date +%s)
+          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/my-image-name:$IMAGE_TAG
