@@ -12,6 +12,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
       - name: List files
         run: ls -la
 
@@ -21,12 +22,27 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-      - name: Build and push Docker image
+      - name: Build and push Docker images
         run: |
+          # Уникальный тег для всех образов
           IMAGE_TAG=$(date +%s)
-          docker compose -f ./docker-compose.yml pull
-          docker compose -f ./docker-compose.yml build
-          SERVICE_NAME=$(docker compose -f ./docker-compose.yml config --services | grep my-service)
-          docker tag ${SERVICE_NAME}:latest ${{ secrets.DOCKER_HUB_USERNAME }}/my-image-name:$IMAGE_TAG
-          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/my-image-name:$IMAGE_TAG
 
+          # Подтягиваем внешние образы (Postgres, Redis и др.)
+          docker compose -f ./docker-compose.yml pull
+
+          # Строим все сервисы из docker-compose
+          docker compose -f ./docker-compose.yml build
+
+          # Получаем список всех сервисов
+          SERVICES=$(docker compose -f ./docker-compose.yml config --services)
+
+          # Тегируем и пушим каждый сервис на Docker Hub
+          for SERVICE in $SERVICES; do
+            echo "Processing service: $SERVICE"
+
+            # Тегируем образ
+            docker tag ${SERVICE}:latest ${{ secrets.DOCKER_HUB_USERNAME }}/${SERVICE}:$IMAGE_TAG
+
+            # Пушим на Docker Hub
+            docker push ${{ secrets.DOCKER_HUB_USERNAME }}/${SERVICE}:$IMAGE_TAG
+          done
