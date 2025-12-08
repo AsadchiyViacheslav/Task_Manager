@@ -19,7 +19,9 @@ public class TaskResponse {
     private LocalDate deadline;
     private TaskPriority priority;
     private TaskStatus status;
+    private Integer progress;
     private LocalDateTime createdAt;
+    private LocalDateTime completedAt;
     private String photoPath;
     private List<SubTaskResponse> subTasks;
 }

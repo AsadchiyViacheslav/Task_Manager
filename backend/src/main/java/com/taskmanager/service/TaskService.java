@@ -8,7 +8,11 @@ import com.taskmanager.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,6 +33,7 @@ public class TaskService {
                 .deadline(request.getDeadline())
                 .priority(request.getPriority() != null ? request.getPriority() : TaskPriority.MEDIUM)
                 .status(request.getStatus() != null ? request.getStatus() : TaskStatus.TODO)
+                .progress(request.getProgress() != null ? request.getProgress() : 0)
                 .creator(user)
                 .build();
 
@@ -39,6 +44,8 @@ public class TaskService {
     public TaskResponse updateTask(Long taskId, UpdateTaskRequest request, Long userId) {
         Task task = taskRepository.findByIdAndCreatorId(taskId, userId)
                 .orElseThrow(() -> new NotFoundException("Задача не найдена"));
+
+        boolean wasCompleted = task.getStatus() == TaskStatus.DONE || task.getProgress() == 100;
 
         if (request.getTitle() != null) {
             task.setTitle(request.getTitle());
@@ -58,6 +65,20 @@ public class TaskService {
 
         if (request.getStatus() != null) {
             task.setStatus(request.getStatus());
+        }
+
+        if (request.getProgress() != null) {
+            task.setProgress(request.getProgress());
+        }
+
+        boolean isCompletedNow = task.getStatus() == TaskStatus.DONE || task.getProgress() == 100;
+
+        if (!wasCompleted && isCompletedNow) {
+            task.setCompletedAt(LocalDateTime.now());
+        }
+
+        if (wasCompleted && !isCompletedNow) {
+            task.setCompletedAt(null);
         }
 
         Task updated = taskRepository.save(task);
@@ -90,6 +111,41 @@ public class TaskService {
                 .collect(Collectors.toList());
     }
 
+    public List<DailyCompletedTasksResponse> getDailyCompletedStats(Long userId) {
+        List<Task> completed = getCompletedTasksForLastYear(userId);
+
+        Map<LocalDate, Long> stats = completed.stream()
+                .collect(Collectors.groupingBy(
+                        t -> t.getCompletedAt().toLocalDate(),
+                        Collectors.counting()
+                ));
+
+        return stats.entrySet().stream()
+                .sorted(Map.Entry.<LocalDate, Long>comparingByKey().reversed())
+                .map(e -> new DailyCompletedTasksResponse(e.getKey(), e.getValue()))
+                .collect(Collectors.toList());
+    }
+
+
+    public List<Task> getCompletedTasksForLastYear(Long userId) {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime oneYearAgo = now.minusYears(1);
+
+        List<Task> tasks = taskRepository.findByCreatorIdAndCreatedAtBetweenOrderByCreatedAtDesc(
+                userId,
+                oneYearAgo,
+                now
+        );
+
+        return tasks.stream()
+                .filter(t ->
+                        t.getStatus() == TaskStatus.DONE ||
+                                (t.getProgress() != null && t.getProgress() == 100)
+                )
+                .collect(Collectors.toList());
+    }
+
+
     private TaskResponse mapToTaskResponse(Task task) {
         List<SubTaskResponse> subTasks = task.getSubTasks().stream()
                 .map(st -> SubTaskResponse.builder()
@@ -111,6 +167,7 @@ public class TaskService {
                 .deadline(task.getDeadline())
                 .priority(task.getPriority())
                 .status(task.getStatus())
+                .progress(task.getProgress())
                 .createdAt(task.getCreatedAt())
                 .photoPath(photoPath)
                 .subTasks(subTasks)

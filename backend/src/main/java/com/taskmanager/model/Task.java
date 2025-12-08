@@ -38,8 +38,14 @@ public class Task {
     @Column(nullable = false)
     private TaskStatus status;
 
+    @Column(nullable = false)
+    private Integer progress;
+
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
+
+    @Column(name = "completed_at")
+    private LocalDateTime completedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "creator_id", nullable = false)

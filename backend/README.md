@@ -129,7 +129,8 @@
   "description": "Список: молоко, хлеб, сыр",
   "deadline": "2025-12-10",
   "priority": "HIGH",
-  "status": "TODO" // по умолчанию TODO
+  "status": "TODO", // по умолчанию TODO
+  "progress": 0 // по умолчанию 0
 }
 ```
 
@@ -140,6 +141,7 @@
 * `deadline`: формат `yyyy-MM-dd`, дата не в прошлом
 * `priority`: обязателен (`LOW`, `MEDIUM`, `HIGH`)
 * `status`: необязательно (`TODO`, `IN_PROGRESS`, `DONE`)
+* `progress`: необязательно (0-100)
 
 **Response (200 OK)**:
 
@@ -151,7 +153,9 @@
   "deadline": "2025-12-10",
   "priority": "HIGH",
   "status": "TODO",
+  "progress": 0,
   "createdAt": "2025-12-06T13:10:22.125481",
+  "completedAt": null,
   "photoPath": null,
   "subTasks": []
 }
@@ -182,7 +186,8 @@
   "description": "Новое описание",
   "deadline": "2025-12-20",
   "priority": "MEDIUM",
-  "status": "IN_PROGRESS"
+  "status": "IN_PROGRESS",
+  "progress": 100
 }
 ```
 
@@ -196,7 +201,9 @@
   "deadline": "2025-12-20",
   "priority": "MEDIUM",
   "status": "IN_PROGRESS",
+  "progress": 100,
   "createdAt": "2025-12-06T13:10:22.125481",
+  "completedAt": "2025-12-07T13:10:22.125481",
   "photoPath": "/uploads/photo123.jpg",
   "subTasks": []
 }
@@ -245,21 +252,18 @@
 ```json
 {
   "id": 1,
-  "title": "TASK2",
-  "description": "Description",
-  "deadline": "2026-01-10",
-  "priority": "HIGH",
+  "title": "Updated",
+  "description": "Updated desc",
+  "deadline": "2026-01-20",
+  "priority": "LOW",
   "status": "TODO",
-  "createdAt": "2025-12-06T08:42:33.210953",
-  "photoPath": "/api/files/6f56949a-499f-48b5-afd3-8c888041232b_photo1.jpg",
+  "progress": 100,
+  "createdAt": "2025-12-08T12:39:29.730758",
+  "completedAt": null,
+  "photoPath": null,
   "subTasks": [
     {
       "id": 1,
-      "description": "Пример подзадачи 2",
-      "completed": false
-    },
-    {
-      "id": 2,
       "description": "Пример подзадачи 2",
       "completed": false
     }
@@ -289,13 +293,28 @@
 ```json
 [
   {
+    "id": 3,
+    "title": "TASK2",
+    "description": "Description",
+    "deadline": "2026-01-10",
+    "priority": "HIGH",
+    "status": "TODO",
+    "progress": 0,
+    "createdAt": "2025-12-08T12:39:33.298591",
+    "completedAt": null,
+    "photoPath": null,
+    "subTasks": []
+  },
+  {
     "id": 2,
     "title": "TASK2",
     "description": "Description",
     "deadline": "2026-01-10",
     "priority": "HIGH",
     "status": "TODO",
-    "createdAt": "2025-12-06T08:42:34.297927",
+    "progress": 0,
+    "createdAt": "2025-12-08T12:39:30.772293",
+    "completedAt": null,
     "photoPath": null,
     "subTasks": []
   },
@@ -305,17 +324,14 @@
     "description": "Updated desc",
     "deadline": "2026-01-20",
     "priority": "LOW",
-    "status": "IN_PROGRESS",
-    "createdAt": "2025-12-06T08:42:33.210953",
-    "photoPath": "/api/files/6f56949a-499f-48b5-afd3-8c888041232b_photo1.jpg",
+    "status": "TODO",
+    "progress": 100,
+    "createdAt": "2025-12-08T12:39:29.730758",
+    "completedAt": null,
+    "photoPath": null,
     "subTasks": [
       {
         "id": 1,
-        "description": "Пример подзадачи 2",
-        "completed": false
-      },
-      {
-        "id": 2,
         "description": "Пример подзадачи 2",
         "completed": false
       }
@@ -548,6 +564,23 @@ http://localhost:8080/api/files/6f56949a-499f-48b5-afd3-8c888041232b_photo1.jpg
 }
 ```
 ---
+
+## **STATS**
+
+### **GET /api/tasks/stats/completed**
+
+Количество выполненных задач по дням за год
+
+**Response (200 OK)**:
+
+```json
+[
+    {
+        "date": "2025-12-08",
+        "count": 1
+    }
+]
+```
 
 
 

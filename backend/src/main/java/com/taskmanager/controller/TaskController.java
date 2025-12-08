@@ -69,4 +69,17 @@ public class TaskController {
         List<TaskResponse> response = taskService.getAllTasks(userId);
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/stats/completed")
+    public ResponseEntity<List<DailyCompletedTasksResponse>> getCompletedDailyStats(
+            HttpServletRequest httpRequest) {
+
+        Long userId = tokenExtractor.getUserIdFromRequest(httpRequest);
+        log.info("Get daily completed stats attempt: userId={}", userId);
+
+        List<DailyCompletedTasksResponse> stats = taskService.getDailyCompletedStats(userId);
+
+        return ResponseEntity.ok(stats);
+    }
+
 }
