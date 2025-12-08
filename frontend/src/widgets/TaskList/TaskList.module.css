@@ -1,0 +1,82 @@
+.page{
+    display: flex;
+    flex-direction: row;
+}
+.content{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: calc(100vw - 252px);
+}
+.sliderWrapper {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    gap: 8px;
+    padding: 8px 16px;
+}
+
+.arrow{
+    cursor: pointer;
+}
+.arrowContainer{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    width: fit-content;
+}
+.arrow path{
+    transition: stroke 0.3s ease;
+    cursor: pointer;
+}
+.arrow:hover path{
+    stroke: #54577A;
+}
+.arrow.leftArrow{
+    transform: rotate(180deg);
+}
+
+.sliderContainer {
+    overflow: hidden;
+    width: 100%;
+}
+
+.sliderContent {
+    display: flex;
+    gap: 8px;
+    transition: transform 0.35s ease;
+}
+
+.slide {
+    flex: 0 0 328px;
+}
+.subTitle{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-content: center;
+    justify-content: space-between;
+}
+.titleSlider{
+    font-size: 18px;
+}
+.task{
+    height: 100%;
+}
+.newTask{
+    position: relative;
+    transition: opacity 0.3s ease,border 0.3s ease;
+    border: 1px solid transparent;
+    border-radius: 10px;
+}
+.newTask:hover{
+    opacity: 0.7;
+    cursor: pointer;
+    border: 1px solid rgba(0, 0, 0, 0.7);
+}
+.add{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+}

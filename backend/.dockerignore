@@ -1,0 +1,34 @@
+### VCS ###
+.git
+.gitignore
+
+### Build output ###
+target/
+build/
+out/
+
+### IDE ###
+.idea/
+*.iml
+.vscode/
+.project
+.classpath
+.settings/
+
+### OS ###
+.DS_Store
+Thumbs.db
+
+### Logs ###
+logs/
+*.log
+
+### Tests ###
+/test/
+
+### Env files ###
+*.env
+.env.*
+
+### Files ###
+uploads/

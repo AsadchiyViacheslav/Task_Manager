@@ -1,0 +1,167 @@
+.container{
+    display: flex;
+    flex-direction: row;
+    flex:1;
+    height: 100vh;
+    max-width: calc(100vw - 252px);
+}
+.avatarContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 26px;
+    background-color: white;
+    margin-top: 16px;
+    margin-right: 10px;
+}
+.right{
+    display: flex;
+    flex-direction: column;
+    background-color: #F5F5F7;
+    padding: 16px;
+    gap: 48px;
+    align-items: flex-end;
+}
+.sliderContainer {
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+  max-width: calc(100vw - 252px - 432px);
+}
+
+.sliderContent {
+    display: flex;
+  gap: 16px;
+  transition: transform 0.35s ease;
+}
+
+.slide {
+  flex: 0 0 328px;
+}
+.left{
+    display: flex;
+    flex:1;
+    flex-direction: column;
+    gap: 30px;
+    padding: 16px;
+}
+.current{
+    width: 100%;
+}
+.arrow{
+    cursor: pointer;
+}
+.arrowContainer{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    width: fit-content;
+}
+.arrow path{
+    transition: stroke 0.3s ease;
+    cursor: pointer;
+}
+.arrow:hover path{
+    stroke: #54577A;
+}
+.arrow.leftArrow{
+    transform: rotate(180deg);
+}
+.tasksTitle{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.title{
+    margin-top: 24px;
+    margin-bottom: 26px;
+}
+.slider{
+    gap: 16px;
+}
+.slide{
+    width: 328px;
+}
+.stats{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 20px 14px;
+    background-color: #141522;
+    border-radius: 10px;
+    width: fit-content;
+    height: fit-content;
+    
+}
+.titleStats{
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+    line-height: 150%;
+    text-wrap: nowrap;
+}
+.remained{
+    font-size: 32px;
+    font-weight: 600;
+    color: white;
+    line-height: 150%;
+}
+.allTasksContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.allTasks{
+    font-size: 20px;
+    font-weight: 600;
+    color: white;
+    line-height: 150%;
+}
+.allTasksSubText{
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--body-light-color);
+    line-height: 150%;
+}
+.contentStats{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 18px;
+}
+.percentCircle{
+    display: flex;
+    width: 68px;
+    height: 68px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 34px;
+}
+.innerCircle{
+    display: flex;
+    width: 62px;
+    height: 62px;
+    align-items: center;
+    justify-content: center;
+    background-color: #141522;
+    border-radius: 31px;
+}
+.percent{
+    font-size: 18px;
+    font-weight: 500;
+    color: white;
+    line-height: 150%;
+    width: 100%;
+    text-align: center;
+}
+.info{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+.task{
+    width:100%;
+}
