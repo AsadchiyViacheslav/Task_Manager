@@ -21,13 +21,13 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-      - name: Build Docker image
+      - name: Build and push Docker image
         run: |
           IMAGE_TAG=$(date +%s)
           docker compose -f ./docker-compose.yml build
-          docker tag my-service ${{ secrets.DOCKER_HUB_USERNAME }}/my-image-name:$IMAGE_TAG
 
-      - name: Push Docker image
-        run: |
-          IMAGE_TAG=$(date +%s)
+          SERVICE_NAME=$(docker compose -f ./docker-compose.yml config --services | head -n 1)
+
+          docker tag ${SERVICE_NAME}:latest ${{ secrets.DOCKER_HUB_USERNAME }}/my-image-name:$IMAGE_TAG
+
           docker push ${{ secrets.DOCKER_HUB_USERNAME }}/my-image-name:$IMAGE_TAG
