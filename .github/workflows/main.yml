@@ -22,27 +22,25 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-      - name: Build and push Docker images
+      - name: Build and push all images from compose
         run: |
-          # Уникальный тег для всех образов
           IMAGE_TAG=$(date +%s)
 
-          # Подтягиваем внешние образы (Postgres, Redis и др.)
-          docker compose -f ./docker-compose.yml pull
+          echo ">>> PULL external images"
+          docker compose -f ./docker-compose.yml pull || true
 
-          # Строим все сервисы из docker-compose
+          echo ">>> BUILD local services"
           docker compose -f ./docker-compose.yml build
 
-          # Получаем список всех сервисов
-          SERVICES=$(docker compose -f ./docker-compose.yml config --services)
+          echo ">>> GET local (built) images"
+          BUILT_IMAGES=$(docker compose -f ./docker-compose.yml config --services | grep -v postgres)
 
-          # Тегируем и пушим каждый сервис на Docker Hub
-          for SERVICE in $SERVICES; do
-            echo "Processing service: $SERVICE"
+          echo ">>> FOUND SERVICES: $BUILT_IMAGES"
 
-            # Тегируем образ
+          for SERVICE in $BUILT_IMAGES; do
+            echo ">>> TAG $SERVICE"
             docker tag ${SERVICE}:latest ${{ secrets.DOCKER_HUB_USERNAME }}/${SERVICE}:$IMAGE_TAG
 
-            # Пушим на Docker Hub
+            echo ">>> PUSH $SERVICE"
             docker push ${{ secrets.DOCKER_HUB_USERNAME }}/${SERVICE}:$IMAGE_TAG
           done
