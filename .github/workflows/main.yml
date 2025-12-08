@@ -22,7 +22,7 @@ jobs:
       - name: Build Docker image
         run: |
           IMAGE_TAG=my-image-name:$(date +%s)
-          docker-compose -f docker-compose.yaml build
+          docker compose -f docker-compose.yaml build
           docker tag my-service ${{ secrets.DOCKER_HUB_USERNAME }}/my-image-name:$IMAGE_TAG
 
       - name: Push Docker image
