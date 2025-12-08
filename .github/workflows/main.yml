@@ -2,9 +2,9 @@ name: Docker Image CI/CD
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build-and-push:
@@ -22,25 +22,26 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-      - name: Build and push all images from compose
+      - name: Build and push images
         run: |
           IMAGE_TAG=$(date +%s)
 
           echo ">>> PULL external images"
           docker compose -f ./docker-compose.yml pull || true
 
-          echo ">>> BUILD local services"
+          echo ">>> BUILD local images"
           docker compose -f ./docker-compose.yml build
 
-          echo ">>> GET local (built) images"
-          BUILT_IMAGES=$(docker compose -f ./docker-compose.yml config --services | grep -v postgres)
+          echo ">>> Getting built images..."
+          IMAGES=$(docker images --format "{{.Repository}}" | grep task_manager)
 
-          echo ">>> FOUND SERVICES: $BUILT_IMAGES"
+          echo "Images found:"
+          echo "$IMAGES"
 
-          for SERVICE in $BUILT_IMAGES; do
-            echo ">>> TAG $SERVICE"
-            docker tag ${SERVICE}:latest ${{ secrets.DOCKER_HUB_USERNAME }}/${SERVICE}:$IMAGE_TAG
+          for IMAGE in $IMAGES; do
+            NAME=$(echo $IMAGE | awk -F'/' '{print $NF}')
+            echo "Processing: $IMAGE as $NAME"
 
-            echo ">>> PUSH $SERVICE"
-            docker push ${{ secrets.DOCKER_HUB_USERNAME }}/${SERVICE}:$IMAGE_TAG
+            docker tag $IMAGE:latest ${{ secrets.DOCKER_HUB_USERNAME }}/$NAME:$IMAGE_TAG
+            docker push ${{ secrets.DOCKER_HUB_USERNAME }}/$NAME:$IMAGE_TAG
           done
