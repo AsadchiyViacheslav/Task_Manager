@@ -6,16 +6,15 @@ import Task from "../../shared/ui/Task/Task";
 import Arrow from "../../assets/icons/arrow.svg?react";
 import s from "./Home.module.css";
 import Chart from "./share/Chart";
-import { data } from "./share/mock";
 import Avatar from "./share/Avatar/Avatar";
 
 export default function Home() {
   const avatar = useUserStore((state) => state.avatar);
   const tasks = useTasksStore((state) => state.tasks);
   const getAll = useTasksStore((state) => state.getAll);
-  const setProgress = useTasksStore((state) => state.setProgress);
-  const allTasks = 100;
-  const taskComplite = 45;
+  const {completedStats,getCompletedStats} = useTasksStore()
+  const allTasks = tasks.length;
+  const taskComplite = tasks.filter(task => task.progress === 100).length;
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -27,6 +26,18 @@ export default function Home() {
     };
     fetchTasks();
   }, [getAll]);
+
+  useEffect(() => {
+    const fetchCompletedStats = async () => {
+      try {
+        await getCompletedStats();
+      } catch (e) {
+        console.error("Ошибка при загрузке статистики выполненных задач:", e);
+      }
+    };
+
+    fetchCompletedStats();
+  }, [getCompletedStats]);
 
   const firstTask = tasks[0];
   const otherTasks = tasks.slice(1);
@@ -44,10 +55,10 @@ export default function Home() {
   };
 
   const handleNext = () => {
-    const max = -(otherTasks.length * (slideWidth + spacing - 4) - containerWidth());
+    const max = -(otherTasks.length * (slideWidth + spacing ) - containerWidth());
     setOffset((prev) => Math.max(prev - (slideWidth + spacing), max));
   };
-
+  console.log(firstTask)
   return (
     <div style={{ display: "flex" }}>
       <Menu />
@@ -59,7 +70,7 @@ export default function Home() {
             <div className={s.statsContainer}>
               <div className={s.stats}>
                 <p className={s.titleStats}>Выполненные задачи</p>
-                <p className={s.remained}>{allTasks - taskComplite}</p>
+                <p className={s.remained}>{taskComplite}</p>
 
                 <div className={s.contentStats}>
                   <div
@@ -71,7 +82,7 @@ export default function Home() {
                     }}
                   >
                     <div className={s.innerCircle}>
-                      <p className={s.percent}>{(taskComplite / allTasks) * 100} %</p>
+                      <p className={s.percent}>{Math.floor(taskComplite / allTasks* 100) } %</p>
                     </div>
                   </div>
 
@@ -83,7 +94,7 @@ export default function Home() {
               </div>
             </div>
 
-            <Chart data={data} />
+            <Chart data={completedStats} />
           </div>
 
           <div className={s.sliderWrapper}>
@@ -124,7 +135,7 @@ export default function Home() {
             <Task
               key={0}
               {...firstTask}
-              showSubtasks={true}
+              showSubTasks={true}
               className={s.current}
               setProgress={(value) => setProgress(firstTask.id, value)}
             />

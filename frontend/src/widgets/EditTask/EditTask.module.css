@@ -1,0 +1,134 @@
+.page{
+    display: flex;
+    flex-direction: row;
+}
+.content{
+    display: flex;
+    flex-direction: column;
+    margin-left: 252px;
+    width: calc(100vw - 252px);
+}
+.bg{
+    display: flex;
+    flex-direction: column;
+    margin: 16px auto;
+    background-color: white;
+    /* flex: 1; */
+    height: fit-content;
+    padding: 32px;
+    width: calc(100vw - 252px - 128px);
+    border-radius: 10px;
+    gap:14px;
+}
+.button{
+    display: flex;
+    margin-top: auto;
+    margin-left: auto;
+    width: fit-content;
+}
+.topGroup{
+    display: grid;
+    grid-template-rows: minmax(0, 250px) auto;
+    grid-template-columns: 1fr 275.21px;
+    row-gap: 14px;
+    
+}
+.img{
+    display: flex;
+    height: 250px;
+    width: auto;
+    aspect-ratio: 2/1;
+    border: 1px solid #D9D9D9;
+    border-radius: 16px;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+    transition: opacity 0.3s ease;
+}
+.img:hover{
+    cursor: pointer;
+    opacity: 0.7;
+}
+.img:hover .deleteOverlay {
+    opacity: 1;
+    pointer-events: auto;
+}
+.img:hover .preview {
+    opacity: 0.7;
+}
+.preview{
+    object-fit: cover;
+    height: 100%;
+    width: auto;
+    transition: opacity 0.3s ease;
+}
+.deleteOverlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    background-color: rgba(0,0,0,0.5);
+    padding: 8px 16px;
+    border-radius: 8px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    font-weight: bold;
+}
+.topLeftGroup{
+    display: flex;
+    height: 100%;
+    aspect-ratio: 2/1;
+}
+.titleField{
+    max-width: 501px;
+}
+.titleInput{
+    text-align: center;
+}
+.titleInput::placeholder{
+    margin: auto;
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 600;
+}
+.inputWrapper {
+  text-align: center;
+}
+.inputWrapper::placeholder{
+  font-size: 18px;
+  font-weight: 600;
+}
+.descriptionField{
+    height: 84px;
+}
+.addSubTask{
+    
+    color:#04A4F4;
+    font-weight: 500;
+    font-size: 14px;
+    margin: 17px 10px;
+    position: relative;
+    cursor: pointer;
+}
+.addSubTask::before{
+    content: "";
+    position: absolute;
+    left:-10px;
+    width: 1px;
+    height: 28px;
+    background-color: #DFDFDF;
+    border-radius: 10px;
+}
+.subTasks{
+    display: flex;
+    flex-direction: column;
+    max-height: 115.2px;
+    overflow-y: scroll;
+}
+.title{
+    font-size: 18px;
+}

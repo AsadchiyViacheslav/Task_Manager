@@ -3,6 +3,7 @@
     font-weight: 600;
 }
 .menu{
+    position: fixed;
     display: flex;
     flex-direction: column;
     height: 100vh;

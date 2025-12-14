@@ -1,0 +1,173 @@
+.content{
+    display: flex;
+    flex-direction: column;
+    margin-left: 252px;
+}
+.container{
+    display: flex;
+    flex-direction: row;
+    max-width: calc(100vh - 252px);
+    gap: 32px;
+    padding: 16px;
+}
+.leftGroup{
+    background-color: white;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    border-radius: 10px;
+    max-width: calc(100vw - 252px - 348px);
+}
+.rightGroup{
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    height: fit-content;
+    border-radius: 10px;
+    padding: 68px 24px;
+    gap: 24px;
+}
+.descriptionTask{
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    gap: 16px;
+    padding-top: 0;
+}
+.title{
+    font-size: 18px;
+}
+.elContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.timeContainer{
+    display: flex;
+    flex-direction: row-reverse;
+    width: fit-content;
+    align-items: center;
+    gap: 5px;
+}
+.subtaskItem{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    gap: 10px;
+}
+.imgContainer{
+    display: flex;
+    max-height: 360px;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 360px;
+    aspect-ratio: 2/1;
+}
+.img{
+    object-fit: cover;
+    height: 100%;
+    border-radius: 10px;
+}
+.noImg{
+    background-color: #eef0ff;
+    border-radius: 10px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.subtasksList{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.chekBox{
+    display: flex;
+    height: 20px;
+    width: 20px;
+    border: 1px solid black;
+    border-radius: 12px;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.3s ease,backhround-color 0.3s ease;
+    cursor: pointer;
+}
+.chekBox.complite{
+    border-color: #546FFF;
+    background-color: #546FFF;
+}
+.buttonDelete{
+    background-color: var(--red-color);
+}
+.root{
+    width: 100%;
+    height: 16px;
+    display: flex;
+    position: relative;
+}
+.track{
+    width: 100%;
+    height: 8px;
+    background-color: #BAC8FF;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.range{ 
+   position: absolute;
+   background-color: #546FFF;
+   border-radius: 8px; 
+   height: 8px;
+}
+.thumb{
+    display: flex;
+    height: 14px;
+    width: 14px;
+    background-color: #546FFF;
+    border-radius: 9px;
+    border: 2px solid white;
+    margin-top: -25%;
+    outline: none;
+    cursor:grab;
+}
+.progressContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.progressText{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.overlay{
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3);
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+.popup{
+    background-color: white;
+    padding: 15px;
+    border-radius: 10px;
+    width: fit-content;
+    display: flex;
+    gap: 15px;
+    flex-direction: column;
+}
+.popupBtns{
+    display: flex;
+    flex-direction: row;
+    width: 300px;
+    gap: 15px;
+}

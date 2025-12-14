@@ -31,6 +31,7 @@ export default function Chart({ data }) {
   };
 
   const groupedData = useMemo(() => {
+    console.log(data)
     if (!data || data.length === 0) return [];
 
     const sorted = [...data].sort((a, b) => new Date(a.date) - new Date(b.date));
@@ -56,11 +57,11 @@ export default function Chart({ data }) {
 
             if (slice.length === 0) return null;
 
-            const sum = slice.reduce((acc, curr) => acc + curr.completed, 0);
+            const sum = slice.reduce((acc, curr) => acc + curr.count, 0);
 
             return {
             date: slice[0].date,
-            completed: sum,
+            count: sum,
             label: new Date(slice[0].date).getDate(), 
             };
         }).filter(Boolean);
@@ -76,10 +77,10 @@ export default function Chart({ data }) {
         const slice = yearData.filter(
           (d) => new Date(d.date).getMonth() === m || new Date(d.date).getMonth() === m + 1
         );
-        const sum = slice.reduce((acc, curr) => acc + curr.completed, 0);
+        const sum = slice.reduce((acc, curr) => acc + curr.count, 0);
         return {
           date: slice[0]?.date || new Date(2025, m, 1),
-          completed: sum,
+          count: sum,
           label: new Date(2025, m, 1).toLocaleDateString("ru-RU", { month: "short" }),
         };
       });
@@ -93,7 +94,7 @@ export default function Chart({ data }) {
     datasets: [
       {
         label: "Выполненные задачи",
-        data: groupedData.map((item) => item.completed),
+        data: groupedData.map((item) => item.count),
         fill: false,
         borderColor: "#546FFF",
         backgroundColor: "#546FFF",

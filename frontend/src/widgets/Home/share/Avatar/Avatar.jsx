@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
-import s from "./Avatar.module.css";
 import { useUserStore } from "../../../../features/auth/model/useUserStore";
 import Button from "../../../../shared/ui/Button/Button";
+import s from "./Avatar.module.css";
 
 export default function Avatar({className}) {
   const [open, setOpen] = useState(false);

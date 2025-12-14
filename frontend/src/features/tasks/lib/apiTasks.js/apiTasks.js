@@ -1,4 +1,4 @@
-import { api } from "../../../../shared/lib/api";
+import { api } from "../../../shared/lib/api";
 
 export const useTasksApi = {
     getAll: async () =>
@@ -15,4 +15,7 @@ export const useTasksApi = {
 
     delete: async (taskId) =>
         api.delete(`/tasks/${taskId}`),
+    
+    getCompletedStats: async () =>
+        api.get("/tasks/stats/completed"),
 };

@@ -4,6 +4,7 @@
     flex:1;
     height: 100vh;
     max-width: calc(100vw - 252px);
+    margin-left: 252px;
 }
 .avatarContainer{
     display: flex;
@@ -23,12 +24,13 @@
     padding: 16px;
     gap: 48px;
     align-items: flex-end;
+    width: 100%;
 }
 .sliderContainer {
   overflow: hidden;
   width: 100%;
   position: relative;
-  max-width: calc(100vw - 252px - 432px);
+  /* max-width: calc(100vw - 252px - 432px); */
 }
 
 .sliderContent {
@@ -46,6 +48,8 @@
     flex-direction: column;
     gap: 30px;
     padding: 16px;
+    max-width: calc(100% - 360px);
+    min-width: calc(100% - 360px);
 }
 .current{
     width: 100%;

@@ -9,7 +9,7 @@ export default function Menu() {
     const links = [
         { path: "/", label: "Главная", Icon: Main },
         { path: "/tasks", label: "Задачи", Icon: Tasks },
-        { path: "/settings", label: "Настройки", Icon: Settings },
+        // { path: "/settings", label: "Настройки", Icon: Settings },
     ];
 
     return (

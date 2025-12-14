@@ -1,6 +1,6 @@
 import Button from "../../../../shared/ui/Button/Button";
 import InputField from "../../../../shared/ui/InputField/InputField";
-import { useState,useCallback } from "react";
+import { useState,useCallback,useEffect } from "react";
 import { useUserStore } from "../../model/useUserStore";
 import { useAuthErrorHandler } from "../../lib/error";
 import { validateFormRegistration } from "../../lib/validation";
@@ -10,8 +10,7 @@ import Logo from "../../../../assets/icons/logo.svg?react"
 import s from "./Registration.module.css"
 import { useNavigate } from "react-router-dom";
 
-
-export default function Registration() {
+export default function Registration({ setProgress }) {
     const nav = useNavigate()
     const [form, setForm] = useState({
         email: "",
@@ -27,41 +26,46 @@ export default function Registration() {
 
     const toggleShowPassword = useCallback(() => {
         setShowPassword(prev => !prev);
-        }, []);
+    }, []);
 
     const toggleShowpasswordConfirm = useCallback(() => {
-            setShowPasswordRepid(prev => !prev);
-            }, []);
+        setShowPasswordRepid(prev => !prev);
+    }, []);
 
     const handleChange = (field) => (value) => {
-        setForm({ ...form, [field]: value });
-        setError((prev) => ({
+        setForm(prev => {
+            const updated = { ...prev, [field]: value };
+
+            const fields = ["email", "password", "passwordConfirm", "username"];
+            const filled = fields.filter(k => updated[k].trim() !== "").length;
+            setProgress(filled); 
+
+            return updated;
+        });
+
+        setError(prev => ({
             ...prev,
             [field]: null,
         }));
     };
+
     const handleSubmit = async ()=>{
-        console.log(form)
-        const {errors,isValid} =validateFormRegistration(form);
+        const {errors,isValid} = validateFormRegistration(form);
         if (isValid) {
             try{
-                console.log(form)
                 await reg(form)
                 nav("/")
             }catch (e){
                 const handel = useAuthErrorHandler.handle(e,"signup")
-                console.log(e,handel)
-                setGlobalError(handel)
-                throw e
+                setGlobalError({globalError:e.data.error})
             }
         } else{
             setError(errors)
         }
-    }
+    };
+
     return (
         <div className={s.container}>
-                
-                
             <div className={s.content}>
                 <div className={s.left}>
                     <div className={s.titleContainer}>
@@ -124,4 +128,4 @@ export default function Registration() {
             </div>
         </div>
     );
-    }
+}

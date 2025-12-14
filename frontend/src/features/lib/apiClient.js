@@ -6,18 +6,25 @@ export class ApiClient {
     this.maxRetries = config.maxRetries || 1;
   }
 
-  async request(url, config = {}, retry = true, attempt = 0) {
+  async request(url, config = {}, retry = true, attempt = 0, skipContentType = false) {
+    console.log(retry)
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), this.timeout);
 
     try {
+      const headers = {
+        "X-Requested-With": "XMLHttpRequest",
+        ...config.headers,
+      };
+
+      // Если skipContentType = false и body не является FormData, ставим JSON
+      if (!skipContentType && !(config.body instanceof FormData)) {
+        headers["Content-Type"] = "application/json";
+      }
+
       const response = await fetch(this.baseURL + url, {
         ...config,
-        headers: {
-          "Content-Type": "application/json",
-          "X-Requested-With": "XMLHttpRequest",
-          ...config.headers,
-        },
+        headers,
         credentials: "include",
         signal: controller.signal,
       });
@@ -34,10 +41,11 @@ export class ApiClient {
 
       if (response.status === 401 && retry && attempt < this.maxRetries && this.onUnauthorized) {
         await this.onUnauthorized();
-        return this.request(url, config, false, attempt + 1);
+        return this.request(url, config, false, attempt + 1, skipContentType);
       }
 
       if (!response.ok) {
+        console.log(response,{statusCode: response.status, data: responseData})
         throw { statusCode: response.status, data: responseData };
       }
 
@@ -59,16 +67,19 @@ export class ApiClient {
     return this.request(url, { ...config, method: "GET" });
   }
 
-  post(url, data, config) {
-    return this.request(url, { ...config, method: "POST", body: JSON.stringify(data) });
+  post(url, data, config = {},retry=true) {
+    const body = data instanceof FormData ? data : JSON.stringify(data);
+    return this.request(url, { ...config, method: "POST", body },retry);
   }
 
-  put(url, data, config) {
-    return this.request(url, { ...config, method: "PUT", body: JSON.stringify(data) });
+  put(url, data, config = {}) {
+    const body = data instanceof FormData ? data : JSON.stringify(data);
+    return this.request(url, { ...config, method: "PUT", body });
   }
 
-  patch(url, data, config) {
-    return this.request(url, { ...config, method: "PATCH", body: JSON.stringify(data) });
+  patch(url, data, config = {}) {
+    const body = data instanceof FormData ? data : JSON.stringify(data);
+    return this.request(url, { ...config, method: "PATCH", body });
   }
 
   delete(url, config) {

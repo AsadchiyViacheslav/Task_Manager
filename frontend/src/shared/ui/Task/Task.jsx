@@ -5,16 +5,19 @@ import * as Slider from "@radix-ui/react-slider";
 
 import { useState } from "react";
 import { timeToString } from "../../lib/timeToString";
+import { useNavigate } from "react-router-dom";
+import { useTasksStore } from "../../../features/tasks/model/useTasksStore";
 
 export default function Task({
+    id,
     img,
     title,
     subtitle,
     progress = 0,
     setProgress,
-    time,
-    subtasks = [],
-    showSubtasks = false,
+    deadline,
+    subTasks = [],
+    showSubTasks = false,
     className = "",
     imgClass = "",
     titleContainerClass = "",
@@ -23,19 +26,32 @@ export default function Task({
     skeleton = false,
     animatedSkeleton = true,
 }) {
+    // console.log(id)
+    // console.log(subTasks,showSubTasks)
+    const nav = useNavigate();
     const [value, setValue] = useState(progress)
     const skeletonClass = animatedSkeleton ? s.skeletonAnimated : s.skeleton
     const [loaded, setLoaded] = useState(false);
+    const {update}=useTasksStore() 
 
     const onChangeProgress = (value) => {
         setValue(value)
-        setProgress && setProgress(value)
+        // setProgress && setProgress(value)
     }
 
-    const timeString = timeToString(time);
+    const timeString = timeToString(deadline);
+    const path = `/task/${id}`
+    const handleFinishChange = async () => {
+        try {
+            await update(id,{progress:value})
+        } catch (e) {
+            console.log("Error updating progress", e);
+        }
+    };
+
     // console.log(img)
     return (
-        <div className={`${s.container} ${className}`}>
+        <div onClick={()=>{nav(path)}} className={`${s.container} ${className}`}>
             {skeleton ? (
                 <>
                     <div className={`${s.galleryWrapper} ${s.imgSkeleton} ${skeletonClass}`} >
@@ -70,11 +86,13 @@ export default function Task({
                         </div>
                     )}
 
-                    {img&&<img
+                    {img&&<div className={s.imgConteiner}>
+                        <img
                         src={img}
-                        className={`${imgClass} ${!loaded ? s.hiddenImage : ""}`}
+                        className={`${s.img} ${imgClass} ${!loaded ? s.hiddenImage : ""}`}
                         onLoad={() => setLoaded(true)}
-                    />}
+                    />
+                    </div>}
 
                     <div className={`${s.titleContainer} ${titleContainerClass}`}>
                         <p className={s.title}>{title}</p>
@@ -93,6 +111,9 @@ export default function Task({
                             max={100}
                             step={1}
                             onValueChange={(v) => onChangeProgress(v[0])}
+                            onPointerUp={() => handleFinishChange()}
+                            onPointerDown={(e) => e.stopPropagation()}
+                            onClick={(e) => e.stopPropagation()}
                         >
                             <Slider.Track className={s.track}>
                                 <Slider.Range className={s.range} />
@@ -105,13 +126,14 @@ export default function Task({
                         <Time />
                         <p className={s.text}>{timeString}</p>
                     </div>
-                    {showSubtasks && subtasks.length > 0 && (
+                    {showSubTasks && subTasks.length > 0 && (
                         <>
                         <div className={s.line}>
 
                         </div>
-                        <div className={s.subtasksContainer}>
-                            {subtasks.map((subtask, index) => (
+                        <div className={s.subTasksContainer}>
+                            {subTasks.map((subtask, index) => {
+                                return(
                                 <div key={index} className={s.subtaskDescription}>
                                     <div className={s.number}>
                                         <p >{index+1}</p>
@@ -119,8 +141,8 @@ export default function Task({
                                     <p key={index} className={s.subtaskText}>
                                         {subtask.description}
                                     </p>
-                                </div>
-                            ))}
+                                </div>)
+                            })}
                         </div>
                         </>
                     )}

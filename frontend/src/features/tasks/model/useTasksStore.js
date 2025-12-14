@@ -1,16 +1,34 @@
 import { create } from "zustand";
+<<<<<<< Updated upstream
 import { useTasksApi } from "../lib/apiTasks.js/apiTasks";
+=======
+import { useTasksApi } from "../lib/apiTasks";
+>>>>>>> Stashed changes
 
 export const useTasksStore = create((set, get) => ({
   tasks: [],
   loading: false,
+<<<<<<< Updated upstream
+=======
+  completedStats: [],
+>>>>>>> Stashed changes
 
   getAll: async () => {
     set({ loading: true });
     try {
       const data = await useTasksApi.getAll();
+<<<<<<< Updated upstream
       set({ tasks: data, loading: false });
       return data;
+=======
+      const tasksWithImg = data.map(task => ({
+        ...task,
+        img: task.photoPath,
+      }));
+      
+      set({ tasks: tasksWithImg, loading: false });
+      return tasksWithImg;
+>>>>>>> Stashed changes
     } catch (e) {
       set({ loading: false });
       throw e;
@@ -18,11 +36,20 @@ export const useTasksStore = create((set, get) => ({
   },
 
   getById: async (id) => {
+    const existing = get().tasks.find(t => t.id === id);
+    if (existing) return existing;
+
     set({ loading: true });
     try {
       const task = await useTasksApi.getById(id);
-      set({ loading: false });
-      return task;
+      const taskWithImg = { ...task, img: task.photoPath };
+
+      set((state) => ({
+        tasks: [...state.tasks, taskWithImg],
+        loading: false,
+      }));
+
+      return taskWithImg;
     } catch (e) {
       set({ loading: false });
       throw e;
@@ -45,10 +72,31 @@ export const useTasksStore = create((set, get) => ({
     set({ loading: true });
     try {
       const updatedTask = await useTasksApi.update(id, updatedFields);
-      set((state) => ({
-        tasks: state.tasks.map((t) => (t.id === id ? { ...t, ...updatedFields } : t)),
-        loading: false,
-      }));
+      set((state) => {
+        const tasks = state.tasks.map((t) => (t.id === id ? { ...t, ...updatedFields } : t));
+        const taskBefore = state.tasks.find(t => t.id === id);
+        const today = new Date().toISOString().split("T")[0];
+
+        let completedStats = [...state.completedStats];
+
+        if (updatedFields.progress === 100 && taskBefore?.progress !== 100) {
+          const existing = completedStats.find(item => item.date === today);
+          if (existing) {
+            existing.count += 1;
+          } else {
+            completedStats.push({ date: today, count: 1 });
+          }
+        }
+
+        if (updatedFields.progress < 100 && taskBefore?.progress === 100) {
+          const existing = completedStats.find(item => item.date === today);
+          if (existing) {
+            existing.count = Math.max(existing.count - 1, 0);
+          }
+        }
+
+        return { tasks, loading: false, completedStats };
+      });
       return updatedTask;
     } catch (e) {
       set({ loading: false });
@@ -56,7 +104,7 @@ export const useTasksStore = create((set, get) => ({
     }
   },
 
-  delete: async (id) => {
+  deleteTask: async (id) => {
     set({ loading: true });
     try {
       await useTasksApi.delete(id);
@@ -70,9 +118,15 @@ export const useTasksStore = create((set, get) => ({
     }
   },
 
-  setProgress: (id, progress) => {
-    set((state) => ({
-      tasks: state.tasks.map((t) => (t.id === id ? { ...t, progress } : t)),
-    }));
+  getCompletedStats: async () => {
+    set({ loading: true });
+    try {
+      const data = await useTasksApi.getCompletedStats();
+      set({ completedStats: data, loading: false });
+      return data;
+    } catch (e) {
+      set({ loading: false });
+      throw e;
+    }
   },
 }));

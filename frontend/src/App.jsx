@@ -5,6 +5,10 @@ import HomePage from "./page/Home/Home";
 import LoginPage from "./page/Login/Login";
 import Tasks from "./page/Tasks/Tasks";
 import Registration from "./features/auth/ui/Registration/Registration";
+import CreatePage from "./page/Tasks/Create/CreatePage";
+import TaskPage from "./page/Task/Task";
+import EditTaskPage from "./page/Edit/EditPage";
+import RegistrationPage from "./page/Registration/Registration";
 
 function App() {
   const isLoggedIn = useUserStore((state) => state.isLoggedIn);
@@ -40,9 +44,26 @@ function App() {
           element={isLoggedIn ? <HomePage /> : <Navigate to="/login" replace />}
         />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/registration" element={<Registration />} />
-        <Route path="/tasks" element={<Tasks />} />
+        <Route path="/registration" element={<RegistrationPage />} />
+
+        <Route
+          path="/tasks"
+          element={isLoggedIn ? <Tasks /> : <Navigate to="/login" replace />}
+        />
+        <Route
+          path="/tasks/create"
+          element={isLoggedIn ? <CreatePage /> : <Navigate to="/login" replace />}
+        />
+        <Route
+          path="/task/:id"
+          element={isLoggedIn ? <TaskPage /> : <Navigate to="/login" replace />}
+        />
+        <Route
+          path="/task/edit/:id"
+          element={isLoggedIn ? <EditTaskPage /> : <Navigate to="/login" replace />}
+        />
       </Routes>
+
     </BrowserRouter>
   );
 }

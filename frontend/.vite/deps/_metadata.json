@@ -1,8 +1,67 @@
 {
-  "hash": "4acd26cd",
+  "hash": "bab44a08",
   "configHash": "49d7fbf1",
-  "lockfileHash": "a079719e",
-  "browserHash": "e6e52432",
-  "optimized": {},
-  "chunks": {}
+  "lockfileHash": "e36542a2",
+  "browserHash": "fbfd8e76",
+  "optimized": {
+    "@radix-ui/react-slider": {
+      "src": "../../node_modules/@radix-ui/react-slider/dist/index.mjs",
+      "file": "@radix-ui_react-slider.js",
+      "fileHash": "4fb110dd",
+      "needsInterop": false
+    },
+    "chart.js": {
+      "src": "../../node_modules/chart.js/dist/chart.js",
+      "file": "chart__js.js",
+      "fileHash": "43fc54c1",
+      "needsInterop": false
+    },
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "64c8773b",
+      "needsInterop": true
+    },
+    "react-chartjs-2": {
+      "src": "../../node_modules/react-chartjs-2/dist/index.js",
+      "file": "react-chartjs-2.js",
+      "fileHash": "36800b0e",
+      "needsInterop": false
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "77858480",
+      "needsInterop": true
+    },
+    "react-router-dom": {
+      "src": "../../node_modules/react-router-dom/dist/index.mjs",
+      "file": "react-router-dom.js",
+      "fileHash": "5703c638",
+      "needsInterop": false
+    },
+    "zustand": {
+      "src": "../../node_modules/zustand/esm/index.mjs",
+      "file": "zustand.js",
+      "fileHash": "f06f4ed8",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-Y7FYIFVS": {
+      "file": "chunk-Y7FYIFVS.js"
+    },
+    "chunk-2AHDF2IY": {
+      "file": "chunk-2AHDF2IY.js"
+    },
+    "chunk-UHYNBCVI": {
+      "file": "chunk-UHYNBCVI.js"
+    },
+    "chunk-WQZTVUHR": {
+      "file": "chunk-WQZTVUHR.js"
+    },
+    "chunk-5WRI5ZAA": {
+      "file": "chunk-5WRI5ZAA.js"
+    }
+  }
 }

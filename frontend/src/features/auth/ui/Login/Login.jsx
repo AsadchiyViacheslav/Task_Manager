@@ -46,8 +46,9 @@ export default function Login() {
       nav("/");
     } catch (e) {
       const handle = useAuthErrorHandler.handle(e, "login");
+      console.log(e,handle)
       setGlobalError(handle);
-      nav("/");
+      // nav("/");
     }
   };
 

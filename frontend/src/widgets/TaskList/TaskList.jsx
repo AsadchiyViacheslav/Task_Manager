@@ -16,16 +16,20 @@ export default function TaskList() {
     getAll();
   }, [getAll]);
 
-  const getHoursLeft = (time) => {
-    return (new Date(time).getTime() - Date.now()) / (1000 * 60 * 60);
-  };
+  const getHoursLeft = (deadline) => {
+  const [year, month, day] = deadline.split("-").map(Number);
+  const date = new Date(year, month - 1, day);
+  // console.log((date.getTime() - Date.now()) / (1000 * 60 * 60))
+  return (date.getTime() - Date.now()) / (1000 * 60 * 60);
+};
+
 
   const urgentTasks = tasks
-    .filter((t) => getHoursLeft(t.time) <= 24)
-    .sort((a, b) => new Date(a.time) - new Date(b.time));
+    .filter((t) => getHoursLeft(t.deadline) <= 24)
+    .sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
 
   const oldTasks = tasks
-    .filter((t) => getHoursLeft(t.time) > 24)
+    .filter((t) => getHoursLeft(t.deadline) > 24)
     .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
 
   const [offsetUrgent, setOffsetUrgent] = useState(0);
@@ -40,8 +44,10 @@ export default function TaskList() {
   const handleNextUrgent = () => {
     const totalWidth = urgentTasks.length * (slideWidth + spacing) - spacing;
     const containerWidth = urgentContainerRef.current?.clientWidth || 0;
+    console.log(containerWidth)
     if (totalWidth <= containerWidth) return;
-    const maxOffset = -(urgentTasks.length * (slideWidth + spacing-4) - containerWidth);
+    const maxOffset = -(urgentTasks.length * (slideWidth + spacing)-containerWidth - 328);
+    console.log(maxOffset)
     setOffsetUrgent((prev) => Math.max(prev - (slideWidth + spacing), maxOffset));
   };
 
@@ -55,11 +61,13 @@ export default function TaskList() {
   const handleNextOld = () => {
     const totalWidth = oldTasks.length * (slideWidth + spacing) - spacing;
     const containerWidth = oldContainerRef.current?.clientWidth || 0;
-    const maxOffset = -(oldTasks.length * (slideWidth + spacing-4) - containerWidth);
+    console.log(containerWidth,totalWidth)
+    const maxOffset = -(oldTasks.length * (slideWidth + spacing) - containerWidth + 275);
+    console.log(maxOffset)
     if (totalWidth <= containerWidth) return;
     setOffsetOld((prev) => Math.max(prev - (slideWidth + spacing), maxOffset));
   };
-  console.log(tasks)
+  // console.log(urgentTasks,oldTasks)
   return (
     <div className={s.page}>
       <Menu />

@@ -11,11 +11,11 @@ const authApi = new ApiClient({
 
 export const useAuthApi = {
   reg: async (data) => {
-    return authApi.post("/register", data);
+    return authApi.post("/register", data,{},false);
   },
 
   login: async (data) => {
-    return authApi.post("/login", data);
+    return authApi.post("/login", data,{},false);
   },
 
   refresh: async () => authApi.post("/refresh"),
