@@ -1,26 +1,15 @@
 import { create } from "zustand";
-<<<<<<< Updated upstream
 import { useTasksApi } from "../lib/apiTasks.js/apiTasks";
-=======
-import { useTasksApi } from "../lib/apiTasks";
->>>>>>> Stashed changes
 
 export const useTasksStore = create((set, get) => ({
   tasks: [],
   loading: false,
-<<<<<<< Updated upstream
-=======
   completedStats: [],
->>>>>>> Stashed changes
 
   getAll: async () => {
     set({ loading: true });
     try {
       const data = await useTasksApi.getAll();
-<<<<<<< Updated upstream
-      set({ tasks: data, loading: false });
-      return data;
-=======
       const tasksWithImg = data.map(task => ({
         ...task,
         img: task.photoPath,
@@ -28,7 +17,6 @@ export const useTasksStore = create((set, get) => ({
       
       set({ tasks: tasksWithImg, loading: false });
       return tasksWithImg;
->>>>>>> Stashed changes
     } catch (e) {
       set({ loading: false });
       throw e;
